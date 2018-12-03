@@ -4,6 +4,11 @@ sudo: false
 matrix:
   include:
   
+  - name: Tests
+    env: RUST_BACKTRACE=1
+    rust: stable
+    script: cargo test --locked
+
   - name: Linux Binary
     env: TARGET=x86_64-unknown-linux-musl
     rust: stable

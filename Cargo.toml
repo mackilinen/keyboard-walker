@@ -1,0 +1,8 @@
+[package]
+name = "keyboard-walker"
+version = "0.1.0"
+authors = ["Markus Eriksson <markus.eriksson.88@gmail.com>"]
+
+[dependencies]
+strum = "0.11.0"
+strum_macros = "0.11.0"

@@ -1,6 +1,21 @@
 language: rust
 sudo: false
 
+DEPLOY_TO_GITHUB: &DEPLOY_TO_GITHUB
+  before_deploy:
+    - name="keyboard-walker-$TRAVIS_TAG-$TARGET"
+    - mkdir $name
+    - cp target/$TARGET/release/keyboard-walker $name/
+    - cp README.md $name/
+    - tar czvf $name.tar.gz $name
+  deploy:
+    provider: releases
+    file: keyboard-walker-$TRAVIS_TAG-$TARGET.tar.gz
+    skip_cleanup: true
+    on:
+      branch: master
+      tags: true
+
 matrix:
   include:
   
@@ -14,12 +29,19 @@ matrix:
     rust: stable
     before_script: rustup target add $TARGET
     script: cargo build --release --target $TARGET --locked
+    addons:
+      apt:
+        packages:
+          - musl-tools
+    <<: *DEPLOY_TO_GITHUB
   
   - name: macOS Binary
     env: MACOSX_DEPLOYMENT_TARGET=10.7 TARGET=x86_64-apple-darwin
     os: osx
     rust: stable
     script: cargo build --release --target $TARGET --locked
+    install: true
+    <<: *DEPLOY_TO_GITHUB
 
 notifications:
   email:

@@ -10,6 +10,8 @@ DEPLOY_TO_GITHUB: &DEPLOY_TO_GITHUB
     - tar czvf $name.tar.gz $name
   deploy:
     provider: releases
+    api_key:
+      secure: AAAAB3NzaC1yc2EAAAADAQABAAACAQDAT0xW8vEy4iyBQC2PvnU9KLY2vTeMk/tKIUAd/os46W9gH0xLrkz/wYf92EmcOkk3FRK49zCgpL9eYx/+liv3NtF9uGcyDRrcFLO0qh5ra3eUtiSF1BYz/LtapeURQFbtWn0j//uv7/ptr9YcB3fkIMSVvl27xSzlng6hXe3wM5OtkzoR9k1Rnm9gQfuPhMn6qCYVzv4ppsAOrSXzEBUDX03/gfgtqVsosaWQl7fvDWUQdElBrWC8/pqrcbnkjsvB1mWlp48wN2x1EYhLWTY54Ei1Cdk2M3Uq53wsfvySeCr6LVB907hRabOThB+uWk3yy9jhaVqOnlpyayisJZ11sXcVANGqD3q7AzmdfqLvVh73COGq0ve7qEuFInIHeZjsWCRWuGxezJyoIA8dhwWTgyzTPgD9yzPuNmk9pUP6r60FdG7lUY43hsqCAccyBdiU+7iyNFbcYjWIuE8eKEtGLtXdTTp3tjlxxKGTIPKiaudwhIGuBfJ8lxN0aTjBbPD6UsnlXgLxQPFoo7o3GvmrtGmRgnUG1ESvwhjTtAkz67NetbUwkhfuCjFJuo2fFtGWNUyqAv4xweu/dkS8iEwSNAjoNGRLjCTwi/fd6lE6Ng/1Q9rMSaKSUHt2f/FzT36N6w5Bro6FgbBDO5PEyMz8TWL5vb9vkG2s8iarre5yoQ==
     file: keyboard-walker-$TRAVIS_TAG-$TARGET.tar.gz
     skip_cleanup: true
     on:

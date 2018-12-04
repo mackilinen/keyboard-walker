@@ -1,6 +1,6 @@
 [package]
 name = "keyboard-walker"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Markus Eriksson <markus.eriksson.88@gmail.com>"]
 
 [dependencies]

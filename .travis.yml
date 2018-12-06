@@ -6,16 +6,17 @@ DEPLOY_TO_GITHUB: &DEPLOY_TO_GITHUB
   before_deploy:
   - git config --local user.name "Markus Eriksson"
   - git config --local user.email "markus.eriksson.88@gmail.com"
-  - name="keyboard-walker-$TRAVIS_TAG-$TARGET"
-  - mkdir $name
-  - cp target/$TARGET/release/keyboard-walker $name/
-  - cp README.md $name/
-  - tar czvf $name.tar.gz $name
+  - archivename="keyboard-walker-$TRAVIS_TAG-$TARGET"
+  - mkdir $archivename
+  - cp target/$TARGET/release/keyboard-walker $archivename/
+  - cp README.md $archivename/
+  - archivefile="$archivename.tar.gz"
+  - tar czvf $archivefile $archivename
   deploy:
     provider: releases
     api_key:
       secure: th2zKxaR4xLormw6mkKorsjmfilYDPq6zLlCjgo+veA4nABs6/SffJdQQT0vlgwCy6aieBZU87kw3CR/zCSCV5HUinhTsg9Q7BaJeNE6URghAsk81DQ1G02fnmkc1Cch2F2Qz5HR55ZOWHoHShR8uqS+b90RBzpirZqfD+IWrsvCTRfq81q4qX0NIHtLXgkzSYr1NShL4hNriUhQJf0qc+Tzcqqr01dyZUZcFbF6GPMNj9gb48Bs7z1rUK4GK05zMS1x0bAigZPRvhCmANnswVLnSvtKUUUk3MILxOmv99/rWs1s5VpQaRZBSXjoIsDVY3AiY4Zo3fYuopSntBHzaCrjyKXrV5B3ULQfiAJQmY9wpABDxvE1MZDAbQPgp2rBIQkO+/sGpTjaJje9i6Fdm7ge9X8Xt5b/1rFVK7OrArmiZyuQJ3ViE71wYvDpsNIDtHgd5tfKGV6476mJ6C73AvS5xCVZuq/Lnh7B97xVAc0L3QFwKBUM5hqPDDfoQxvmkO8Rb77dunrN858opgCDagNNu8IweO2EBzwOlS1Uxlg0HHwoIzlevieTo7b3hLq6ThItE9V6eYr4F6Je5aoq036+D9TxDqSa9N4XCzofPqwwZbMwDWF0cnrRs541a9lz0W2yj+7rB+WfbsAE1xx3y7c6S7Fq+LyrQ5KEXfrL52s=
-    file: keyboard-walker-$TRAVIS_TAG-$TARGET.tar.gz
+    file: $archivefile
     skip_cleanup: true
     on:
       branch: master

@@ -55,16 +55,16 @@ matrix:
     filter_secrets: false
     rust: stable
     script: cargo build --release --target $TARGET --locked
-    # before_deploy:
-    #   - git config --local user.name "Markus Eriksson"
-    #   - git config --local user.email "markus.eriksson.88@gmail.com"
-    #   - archivename="keyboard-walker-$TRAVIS_TAG-$TARGET"
-    #   - mkdir $archivename
-    #   - copy "target\$TARGET\release\keyboard-walker.exe" $archivename
-    #   - copy README.md $archivename
-    #   - archivefile="$archivename.zip"
-    #   - 7z a "$archivefile" "$archivename"
-    # deploy: &GITHUB_DEPLOY
+    before_deploy:
+      - git config --local user.name "Markus Eriksson"
+      - git config --local user.email "markus.eriksson.88@gmail.com"
+      - archivename="keyboard-walker-$TRAVIS_TAG-$TARGET"
+      - mkdir $archivename
+      - copy "target\$TARGET\release\keyboard-walker.exe" $archivename
+      - copy README.md $archivename
+      - archivefile="$archivename.zip"
+      - 7z a "$archivefile" "$archivename"
+    deploy: &GITHUB_DEPLOY
     
 notifications:
   email:

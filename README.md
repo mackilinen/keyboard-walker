@@ -40,3 +40,9 @@ secondwordwer
 ¹ It currently starts on the top left corner in a left to right & top to bottom order.
 
 ² This is currently configured for travis but it's not working as it's early release functionality.
+
+## Keyboard layout resources
+
+<http://www.unicode.org/cldr/charts/latest/keyboards/layouts/index.html>
+
+<http://www.keyboard-layout-editor.com>

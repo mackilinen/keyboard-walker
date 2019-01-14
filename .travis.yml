@@ -52,6 +52,7 @@ matrix:
   - name: Windows Binary
     env: TARGET=x86_64-pc-windows-msvc
     os: windows
+    filter_secrets: false
     rust: stable
     script: cargo build --release --target $TARGET --locked
     # before_deploy:

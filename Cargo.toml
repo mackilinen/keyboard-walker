@@ -2,6 +2,7 @@
 name = "keyboard-walker"
 version = "0.1.4"
 authors = ["Markus Eriksson <markus.eriksson.88@gmail.com>"]
+edition = "2018"
 
 [dependencies]
 strum = "0.11.0"

@@ -1,9 +1,9 @@
-use strum;
 #[macro_use]
 extern crate strum_macros;
 
 use std::env;
 use std::str::FromStr;
+use strum;
 
 #[derive(EnumString)]
 enum Strategy {

@@ -30,16 +30,12 @@ secondwordwer
 
 ### To-Do
 
-- Show the generated sequences first
 - Read word list from a file
 - Possibility to use a range for the sequence length (min length & max length)
 - Read keyboard layout from file
 - Run the strategy in different orders¹
-- Windows binary²
 
 ¹ It currently starts on the top left corner in a left to right & top to bottom order.
-
-² This is currently configured for travis but it's not working as it's early release functionality.
 
 ## Keyboard layout resources
 

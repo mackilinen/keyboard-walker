@@ -8,7 +8,7 @@ dependencies = [
 
 [[package]]
 name = "keyboard-walker"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "strum 0.11.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "strum_macros 0.11.0 (registry+https://github.com/rust-lang/crates.io-index)",

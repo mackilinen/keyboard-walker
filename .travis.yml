@@ -60,8 +60,8 @@ matrix:
       - git config --local user.email "markus.eriksson.88@gmail.com"
       - archivename="keyboard-walker-$TRAVIS_TAG-$TARGET"
       - mkdir $archivename
-      - cp "target\$TARGET\release\keyboard-walker.exe" $archivename
-      - cp README.md $archivename
+      - cp target/$TARGET/release/keyboard-walker.exe $archivename/
+      - cp README.md $archivename/
       - archivefile="$archivename.zip"
       - 7z a "$archivefile" "$archivename"
     deploy: *GITHUB_DEPLOY

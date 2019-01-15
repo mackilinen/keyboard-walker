@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/Merik88/keyboard-walker.svg?branch=master)](https://travis-ci.com/Merik88/keyboard-walker)
 
-keyboard-walker is a tool for generating passwords based on keyboard key sequences.
+keyboard-walker is a tool for generating passwords based on keyboard keys.
 
 ## Installation
 

@@ -64,7 +64,7 @@ matrix:
       - copy README.md $archivename
       - archivefile="$archivename.zip"
       - 7z a "$archivefile" "$archivename"
-    deploy: &GITHUB_DEPLOY
+    deploy: *GITHUB_DEPLOY
     
 notifications:
   email:

@@ -1,6 +1,6 @@
 pub fn append_keyboard_word_to_list_of_words(
     words: Vec<String>,
-    keyboard_words: Vec<String>,
+    keyboard_words: &Vec<String>,
 ) -> Vec<String> {
     let mut new_words: Vec<String> = vec![];
     for word in words.iter() {
@@ -52,7 +52,7 @@ mod tests {
         ];
         assert_eq!(
             expected_appended_word,
-            append_keyboard_word_to_list_of_words(words, keyboard_words)
+            append_keyboard_word_to_list_of_words(words, &keyboard_words)
         );
     }
 
@@ -82,7 +82,7 @@ mod tests {
         ];
         assert_eq!(
             expected_appended_word,
-            append_keyboard_word_to_list_of_words(words, keyboard_words)
+            append_keyboard_word_to_list_of_words(words, &keyboard_words)
         );
     }
 }

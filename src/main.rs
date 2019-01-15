@@ -41,9 +41,13 @@ fn main() {
     ];
 
     let new_keyboard_layout = keyboardlayout::create_keyboard_layout(swedish_keyboard, strategy);
-    let keyboard_word = walker::generate_words_from_keyboard_layout(new_keyboard_layout, word_length);
-    let new_words = appender::append_keyboard_word_to_list_of_words(word_list, keyboard_word);
-
+    let keyboard_words = walker::generate_words_from_keyboard_layout(new_keyboard_layout, word_length);
+    let new_words = appender::append_keyboard_word_to_list_of_words(word_list, &keyboard_words);
+    
+    for keyboard_word in keyboard_words.iter() {
+        println!("{}", keyboard_word);
+    }
+    
     for new_word in new_words.iter() {
         println!("{}", new_word);
     }

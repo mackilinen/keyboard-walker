@@ -1,38 +1,51 @@
 #[macro_use]
 extern crate strum_macros;
 
-use std::env;
+use std::fs::File;
+use std::io::BufReader;
+use std::io::prelude::*;
+use std::path::PathBuf;
 use std::str::FromStr;
+use quicli::prelude::*;
+use structopt::StructOpt;
 use strum;
 
 mod appender;
 mod keyboardlayout;
 mod walker;
 
-fn main() {
-    if env::args().count() < 4 {
-        println!();
-        println!("USAGE:");
-        println!("  keyboard-walker <1arg> <2arg> <3arg...Narg>");
-        println!();
-        println!("Arguments:");
-        println!("  1arg: length of the generated keyboard word");
-        println!("  2arg: kayboard walk strategy (Horizontal or Vertical)");
-        println!("  3arg: words to append to");
-        println!();
-        println!("EXAMPLE:");
-        println!("  keyboard-walker 3 Horizontal firstword secondword thirdword");
-        return;
-    }
+/// Generate passwords based on keyboard keys
+#[derive(Debug, StructOpt)]
+struct Cli {
+    // Add a CLI argument `--length`/-l` that defaults to 3, and has this help text:
+    /// Length of generated keyboard sequence
+    #[structopt(long = "length", short = "l", default_value = "3")]
+    length: usize,
+    /// Strategy of generated keyboard sequence
+    #[structopt(long = "strategy", short = "s", default_value = "Horizontal")]
+    strategy: String,
+    /// The file to read
+    #[structopt(long = "words-file", short = "f", default_value = "", parse(from_os_str))]
+    file: PathBuf,
+    #[structopt(flatten)]
+    verbosity: Verbosity,
+}
 
-    let word_length = env::args()
-        .skip(1)
-        .take(1)
-        .collect::<String>()
-        .parse()
-        .unwrap();
-    let strategy = keyboardlayout::Strategy::from_str(&env::args().skip(2).take(1).collect::<String>()).unwrap();
-    let word_list = env::args().skip(3).collect();
+fn main() -> CliResult {
+    
+    let args = Cli::from_args();
+    args.verbosity.setup_env_logger(&env!("CARGO_PKG_NAME"))?;
+    
+    let word_length = args.length;
+    let strategy = keyboardlayout::Strategy::from_str(&args.strategy)?;
+    let word_list = if args.file.as_os_str().is_empty() {
+        Vec::new()
+    } else {
+        BufReader::new(File::open(&args.file)?)
+            .lines()
+            .map(|l| l.unwrap())
+            .collect()
+    };
     let swedish_keyboard = vec![
         "§1234567890+´".to_string(),
         "qwertyuiopå¨".to_string(),
@@ -51,4 +64,6 @@ fn main() {
     for new_word in new_words.iter() {
         println!("{}", new_word);
     }
+    
+    Ok(())
 }

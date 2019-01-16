@@ -27,6 +27,9 @@ struct Cli {
     /// The file to read
     #[structopt(long = "words-file", short = "f", default_value = "", parse(from_os_str))]
     file: PathBuf,
+    /// The file to read
+    #[structopt(long = "keyboard-file", short = "k", default_value = "", parse(from_os_str))]
+    keyboard_file: PathBuf,
     #[structopt(flatten)]
     verbosity: Verbosity,
 }
@@ -46,14 +49,21 @@ fn main() -> CliResult {
             .map(|l| l.unwrap())
             .collect()
     };
-    let swedish_keyboard = vec![
-        "§1234567890+´".to_string(),
-        "qwertyuiopå¨".to_string(),
-        "asdfghjklöä'".to_string(),
-        "<zxcvbnm,.-".to_string(),
-    ];
+    let keyboard_layout = if args.keyboard_file.as_os_str().is_empty() {
+        vec![
+            "§1234567890+´".to_string(),
+            "qwertyuiopå¨".to_string(),
+            "asdfghjklöä'".to_string(),
+            "<zxcvbnm,.-".to_string(),
+        ]
+    } else {
+        BufReader::new(File::open(&args.keyboard_file)?)
+            .lines()
+            .map(|l| l.unwrap())
+            .collect()
+    };
 
-    let new_keyboard_layout = keyboardlayout::create_keyboard_layout(swedish_keyboard, strategy);
+    let new_keyboard_layout = keyboardlayout::create_keyboard_layout(keyboard_layout, strategy);
     let keyboard_words = walker::generate_words_from_keyboard_layout(new_keyboard_layout, word_length);
     let new_words = appender::append_keyboard_word_to_list_of_words(word_list, &keyboard_words);
     

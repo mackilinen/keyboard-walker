@@ -25,7 +25,7 @@ struct Cli {
     #[structopt(long = "strategy", short = "s", default_value = "Horizontal")]
     strategy: String,
     /// The word list file path
-    #[structopt(long = "words-file", short = "f", default_value = "", parse(from_os_str))]
+    #[structopt(long = "words-file", short = "w", default_value = "", parse(from_os_str))]
     file: PathBuf,
     /// The keyboard layout file path
     #[structopt(long = "keyboard-file", short = "k", default_value = "", parse(from_os_str))]

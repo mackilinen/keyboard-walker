@@ -4,9 +4,10 @@ pub fn generate_words_from_keyboard_layout_with_min_max(
     max_word_length: usize,
 ) -> Vec<String> {
     let mut generated_words: Vec<String> = Vec::new();
-    
-    for length in min_word_length..max_word_length+1 {
-        let iterate_to = keyboard_layout_with_strategy.chars().count() + 1 - length;
+    let max_keyboard_layout_length = keyboard_layout_with_strategy.chars().count();
+    let iterate_to_length = if max_word_length < max_keyboard_layout_length { max_word_length+1 } else { max_keyboard_layout_length+1 };
+    for length in min_word_length..iterate_to_length {
+        let iterate_to = max_keyboard_layout_length + 1 - length;
         for i in 0..iterate_to {
             let word = keyboard_layout_with_strategy
                 .chars()
@@ -94,7 +95,23 @@ mod tests {
 
         let first_word = "qwe".to_string();
         let last_word = "qwer".to_string();
-        println!("{:?}", generated_words);
+        
+        assert!(generated_words.iter().count() == 3);
+        assert!(generated_words.contains(&first_word));
+        assert!(generated_words.contains(&last_word));
+    }
+    
+    #[test]
+    fn dont_panic_when_max_length_is_bigger_then_keyboard_layout_length() {
+        let keyboard_layout = "qwer".to_string();
+        let min_word_length = 3;
+        let max_word_length = 6;
+
+        let generated_words = generate_words_from_keyboard_layout_with_min_max(keyboard_layout, min_word_length, max_word_length);
+
+        let first_word = "qwe".to_string();
+        let last_word = "qwer".to_string();
+        
         assert!(generated_words.iter().count() == 3);
         assert!(generated_words.contains(&first_word));
         assert!(generated_words.contains(&last_word));

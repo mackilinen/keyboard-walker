@@ -10,19 +10,21 @@ Download the executable from the [releases](https://github.com/Merik88/keyboard-
 
 ## Usage
 
-keyboard-walker <1arg> <2arg> <3arg...Narg>
-
-- 1arg: length of the generated keyboard sequence
-- 2arg: kayboard walk strategy (Horizontal or Vertical)
-- 3arg: words to append sequences to
+Run this for help with arguments:
 
 ```bash
-$ keyboard-walker 3 Horizontal firstword secondword
-firstwordqwe
-firstwordwer
-...
-secondwordqwe
-secondwordwer
+keyboard-walker -h
+```
+
+Example run without any arguments (default):
+
+```bash
+$ keyboard-walker
+§12
+123
+234
+345
+456
 ...
 ```
 

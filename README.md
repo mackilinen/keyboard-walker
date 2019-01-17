@@ -30,7 +30,6 @@ secondwordwer
 
 ### To-Do
 
-- Possibility to use a range for the sequence length (min length & max length)
 - Run the strategy in different orders¹
 
 ¹ It currently starts on the top left corner in a left to right & top to bottom order.

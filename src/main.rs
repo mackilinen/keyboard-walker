@@ -17,10 +17,12 @@ mod walker;
 /// Generate passwords based on keyboard keys
 #[derive(Debug, StructOpt)]
 struct Cli {
-    // Add a CLI argument `--length`/-l` that defaults to 3, and has this help text:
-    /// Length of generated keyboard sequence
-    #[structopt(long = "length", short = "l", default_value = "3")]
-    length: usize,
+    /// Minimum length of generated keyboard sequence
+    #[structopt(long = "min", short = "m", default_value = "3")]
+    min_length: usize,
+    /// Maximum length of generated keyboard sequence
+    #[structopt(long = "max", short = "M", default_value = "3")]
+    max_length: usize,
     /// Strategy of generated keyboard sequence
     #[structopt(long = "strategy", short = "s", default_value = "Horizontal")]
     strategy: String,
@@ -39,7 +41,8 @@ fn main() -> CliResult {
     let args = Cli::from_args();
     args.verbosity.setup_env_logger(&env!("CARGO_PKG_NAME"))?;
     
-    let word_length = args.length;
+    let min_word_length = args.min_length;
+    let max_word_length = args.max_length;
     let strategy = keyboardlayout::Strategy::from_str(&args.strategy)?;
     let word_list = if args.file.as_os_str().is_empty() {
         Vec::new()
@@ -64,7 +67,7 @@ fn main() -> CliResult {
     };
 
     let new_keyboard_layout = keyboardlayout::create_keyboard_layout(keyboard_layout, strategy);
-    let keyboard_words = walker::generate_words_from_keyboard_layout(new_keyboard_layout, word_length);
+    let keyboard_words = walker::generate_words_from_keyboard_layout_with_min_max(new_keyboard_layout, min_word_length, max_word_length);
     let new_words = appender::append_keyboard_word_to_list_of_words(word_list, &keyboard_words);
     
     for keyboard_word in keyboard_words.iter() {

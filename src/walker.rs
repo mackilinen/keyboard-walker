@@ -1,17 +1,20 @@
-pub fn generate_words_from_keyboard_layout(
+pub fn generate_words_from_keyboard_layout_with_min_max(
     keyboard_layout_with_strategy: String,
-    word_length: usize,
+    min_word_length: usize,
+    max_word_length: usize,
 ) -> Vec<String> {
-    let iterate_to = keyboard_layout_with_strategy.chars().count() + 1 - word_length;
-
     let mut generated_words: Vec<String> = Vec::new();
-    for i in 0..iterate_to {
-        let word = keyboard_layout_with_strategy
-            .chars()
-            .skip(i)
-            .take(word_length)
-            .collect();
-        generated_words.push(word);
+    
+    for length in min_word_length..max_word_length+1 {
+        let iterate_to = keyboard_layout_with_strategy.chars().count() + 1 - length;
+        for i in 0..iterate_to {
+            let word = keyboard_layout_with_strategy
+                .chars()
+                .skip(i)
+                .take(length)
+                .collect();
+            generated_words.push(word);
+        }
     }
 
     generated_words
@@ -21,6 +24,13 @@ pub fn generate_words_from_keyboard_layout(
 mod tests {
     use super::*;
     
+    fn generate_words_from_keyboard_layout(
+        keyboard_layout_with_strategy: String,
+        word_length: usize,
+    ) -> Vec<String> {
+        generate_words_from_keyboard_layout_with_min_max(keyboard_layout_with_strategy, word_length, word_length)
+    }
+
     #[test]
     fn generate_one_word_of_3_char_from_keyboard_layout() {
         let keyboard_layout = "qwe".to_string();
@@ -70,6 +80,22 @@ mod tests {
         assert!(generated_words
             .iter()
             .all(|item| item.chars().count() == word_length));
+        assert!(generated_words.contains(&first_word));
+        assert!(generated_words.contains(&last_word));
+    }
+    
+    #[test]
+    fn generate_multiple_words_of_min_3_char_and_max_4_char_from_keyboard_layout() {
+        let keyboard_layout = "qwer".to_string();
+        let min_word_length = 3;
+        let max_word_length = 4;
+
+        let generated_words = generate_words_from_keyboard_layout_with_min_max(keyboard_layout, min_word_length, max_word_length);
+
+        let first_word = "qwe".to_string();
+        let last_word = "qwer".to_string();
+        println!("{:?}", generated_words);
+        assert!(generated_words.iter().count() == 3);
         assert!(generated_words.contains(&first_word));
         assert!(generated_words.contains(&last_word));
     }

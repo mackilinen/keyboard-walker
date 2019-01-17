@@ -30,9 +30,7 @@ secondwordwer
 
 ### To-Do
 
-- Read word list from a file
 - Possibility to use a range for the sequence length (min length & max length)
-- Read keyboard layout from file
 - Run the strategy in different orders¹
 
 ¹ It currently starts on the top left corner in a left to right & top to bottom order.

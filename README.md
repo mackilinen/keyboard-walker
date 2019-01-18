@@ -41,3 +41,7 @@ $ keyboard-walker
 <http://www.unicode.org/cldr/charts/latest/keyboards/layouts/index.html>
 
 <http://www.keyboard-layout-editor.com>
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file or <http://opensource.org/licenses/MIT> for details

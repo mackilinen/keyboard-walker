@@ -44,4 +44,4 @@ $ keyboard-walker
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file or <http://opensource.org/licenses/MIT> for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file or <http://opensource.org/licenses/MIT> for details

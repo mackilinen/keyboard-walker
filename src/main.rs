@@ -70,12 +70,12 @@ fn main() -> CliResult {
     let keyboard_words = walker::generate_words_from_keyboard_layout_with_min_max(new_keyboard_layout, min_word_length, max_word_length);
     let new_words = appender::append_keyboard_word_to_list_of_words(word_list, &keyboard_words);
     
-    for keyboard_word in keyboard_words.iter() {
-        println!("{}", keyboard_word);
-    }
+    let mut output_words = Vec::new();
+    output_words.extend(keyboard_words);
+    output_words.extend(new_words);
     
-    for new_word in new_words.iter() {
-        println!("{}", new_word);
+    for word in output_words.iter() {
+        println!("{}", word);
     }
     
     Ok(())

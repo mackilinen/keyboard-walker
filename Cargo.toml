@@ -3,6 +3,10 @@ name = "keyboard-walker"
 version = "0.4.0"
 authors = ["Markus Eriksson <markus.eriksson.88@gmail.com>"]
 edition = "2018"
+description = "Generate passwords based on keyboard keys"
+repository = "https://github.com/Merik88/keyboard-walker"
+readme = "README.md"
+license = "MIT"
 
 [dependencies]
 strum = "0.11.0"

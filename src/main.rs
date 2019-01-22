@@ -2,6 +2,7 @@
 extern crate strum_macros;
 
 use std::fs::File;
+use std::io;
 use std::io::BufReader;
 use std::io::prelude::*;
 use std::path::PathBuf;
@@ -74,8 +75,13 @@ fn main() -> CliResult {
     output_words.extend(keyboard_words);
     output_words.extend(new_words);
     
-    for word in output_words.iter() {
-        println!("{}", word);
+    {
+        let stdout = io::stdout();
+        let mut lock = stdout.lock();
+        
+        for line in output_words.iter() {
+            writeln!(lock, "{}", line)?;
+        }
     }
     
     Ok(())

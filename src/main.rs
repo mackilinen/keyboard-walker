@@ -3,7 +3,7 @@ extern crate strum_macros;
 
 use std::fs::File;
 use std::io;
-use std::io::BufReader;
+use std::io::{BufReader,BufWriter};
 use std::io::prelude::*;
 use std::path::PathBuf;
 use std::str::FromStr;
@@ -77,10 +77,10 @@ fn main() -> CliResult {
     
     {
         let stdout = io::stdout();
-        let mut lock = stdout.lock();
+        let mut buf = BufWriter::new(stdout.lock());
         
         for line in output_words.iter() {
-            writeln!(lock, "{}", line)?;
+            writeln!(buf, "{}", line)?;
         }
     }
     

@@ -10,6 +10,7 @@ DEPLOY_TO_GITHUB: &DEPLOY_TO_GITHUB
   - mkdir $archivename
   - cp target/$TARGET/release/keyboard-walker $archivename/
   - cp README.md $archivename/
+  - cp LICENSE.txt $archivename/  
   - archivefile="$archivename.tar.gz"
   - tar czvf $archivefile $archivename
   deploy: &GITHUB_DEPLOY
@@ -62,6 +63,7 @@ matrix:
       - mkdir $archivename
       - cp target/$TARGET/release/keyboard-walker.exe $archivename/
       - cp README.md $archivename/
+      - cp LICENSE.txt $archivename/
       - archivefile="$archivename.zip"
       - 7z a "$archivefile" "$archivename"
     deploy: *GITHUB_DEPLOY

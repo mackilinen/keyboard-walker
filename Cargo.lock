@@ -277,7 +277,7 @@ dependencies = [
 
 [[package]]
 name = "keyboard-walker"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
  "quicli 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "structopt 0.2.14 (registry+https://github.com/rust-lang/crates.io-index)",

@@ -6,8 +6,8 @@ pub enum Strategy {
 
 pub fn create_keyboard_layout(keyboard_layout: Vec<String>, strategy: Strategy) -> String {
     match strategy {
-        Strategy::Horizontal => create_horizontal_keyboard_layout(keyboard_layout),
-        Strategy::Vertical => create_vertical_keyboard_layout(keyboard_layout),
+        Strategy::Horizontal => merge_keyboard_layout_into_a_string(keyboard_layout),
+        Strategy::Vertical => merge_keyboard_layout_into_a_string(turn_horizontal_into_vertical_keyboard_layout(keyboard_layout)),
     }
 }
 
@@ -19,7 +19,7 @@ fn get_keyboard_layout_string_capacity(keyboard_layout: &Vec<String>) -> usize {
         })
 }
 
-fn create_horizontal_keyboard_layout(keyboard_layout: Vec<String>) -> String {
+fn merge_keyboard_layout_into_a_string(keyboard_layout: Vec<String>) -> String {
     let string_capacity = get_keyboard_layout_string_capacity(&keyboard_layout);
     let initial_string = String::with_capacity(string_capacity);
 
@@ -31,10 +31,9 @@ fn create_horizontal_keyboard_layout(keyboard_layout: Vec<String>) -> String {
         })
 }
 
-fn create_vertical_keyboard_layout(keyboard_layout: Vec<String>) -> String {
-    let string_capacity = get_keyboard_layout_string_capacity(&keyboard_layout);
-    let mut initial_string = String::with_capacity(string_capacity);
-
+fn turn_horizontal_into_vertical_keyboard_layout(keyboard_layout: Vec<String>) -> Vec<String>{
+    let mut new_layout = vec![];
+    
     let string_length_max = keyboard_layout.iter().fold(0, |count, item| {
         let new_count = item.chars().count();
         if count < new_count {
@@ -46,13 +45,15 @@ fn create_vertical_keyboard_layout(keyboard_layout: Vec<String>) -> String {
     let vector_length = keyboard_layout.iter().count();
 
     for i in 0..string_length_max {
+        let mut initial_string = "".to_string();
         for j in 0..vector_length {
             let item: String = keyboard_layout[j].chars().skip(i).take(1).collect();
             initial_string.push_str(&item)
         }
+        new_layout.push(initial_string);
     }
-
-    initial_string
+    
+    new_layout
 }
 
 #[cfg(test)]
@@ -135,5 +136,22 @@ mod tests {
         let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical);
 
         assert_eq!("qazwsxedcrvtbyn".to_string(), created_keyboard_layout);
+    }
+    
+    #[test]
+    fn turn_keyboard_layout_vertical() {
+        let keyboard_layout = vec![
+            "qwe".to_string(),
+            "asd".to_string(),
+            "zxc".to_string(),
+        ];
+        
+        let new_layout = turn_horizontal_into_vertical_keyboard_layout(keyboard_layout);
+
+        assert_eq!(vec![
+            "qaz".to_string(),
+            "wsx".to_string(),
+            "edc".to_string(),
+        ], new_layout);
     }
 }

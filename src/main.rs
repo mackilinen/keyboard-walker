@@ -25,7 +25,7 @@ struct Cli {
     #[structopt(long = "max", short = "M", default_value = "3")]
     max_length: usize,
     /// Strategy of generated keyboard sequence
-    #[structopt(long = "strategy", short = "s", default_value = "Horizontal")]
+    #[structopt(long = "strategy", short = "s", default_value = "All")]
     strategy: String,
     /// The word list file path
     #[structopt(long = "words-file", short = "w", default_value = "", parse(from_os_str))]
@@ -67,8 +67,12 @@ fn main() -> CliResult {
             .collect()
     };
 
-    let new_keyboard_layout = keyboardlayout::create_keyboard_layout(keyboard_layout, strategy);
-    let keyboard_words = walker::generate_words_from_keyboard_layout_with_min_max(new_keyboard_layout, min_word_length, max_word_length);
+    let new_keyboard_layouts = keyboardlayout::create_keyboard_layout(keyboard_layout, strategy);
+    
+    let mut keyboard_words = vec![];
+    for new_keyboard_layout in new_keyboard_layouts {
+        keyboard_words.extend(walker::generate_words_from_keyboard_layout_with_min_max(new_keyboard_layout, min_word_length, max_word_length));
+    }
     let new_words = appender::append_keyboard_word_to_list_of_words(word_list, &keyboard_words);
     
     let mut output_words = Vec::new();

@@ -2,12 +2,17 @@
 pub enum Strategy {
     Horizontal,
     Vertical,
+    All,
 }
 
-pub fn create_keyboard_layout(keyboard_layout: Vec<String>, strategy: Strategy) -> String {
+pub fn create_keyboard_layout(keyboard_layout: Vec<String>, strategy: Strategy) -> Vec<String> {
     match strategy {
-        Strategy::Horizontal => merge_keyboard_layout_into_a_string(keyboard_layout),
-        Strategy::Vertical => merge_keyboard_layout_into_a_string(turn_horizontal_into_vertical_keyboard_layout(keyboard_layout)),
+        Strategy::Horizontal => vec![merge_keyboard_layout_into_a_string(&keyboard_layout)],
+        Strategy::Vertical => vec![merge_keyboard_layout_into_a_string(&turn_horizontal_into_vertical_keyboard_layout(keyboard_layout))],
+        Strategy::All => vec![
+            merge_keyboard_layout_into_a_string(&keyboard_layout),
+            merge_keyboard_layout_into_a_string(&turn_horizontal_into_vertical_keyboard_layout(keyboard_layout))
+        ],
     }
 }
 
@@ -19,7 +24,7 @@ fn get_keyboard_layout_string_capacity(keyboard_layout: &Vec<String>) -> usize {
         })
 }
 
-fn merge_keyboard_layout_into_a_string(keyboard_layout: Vec<String>) -> String {
+fn merge_keyboard_layout_into_a_string(keyboard_layout: &Vec<String>) -> String {
     let string_capacity = get_keyboard_layout_string_capacity(&keyboard_layout);
     let initial_string = String::with_capacity(string_capacity);
 
@@ -66,7 +71,7 @@ mod tests {
 
         let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal);
 
-        assert_eq!("1234".to_string(), created_keyboard_layout);
+        assert_eq!("1234".to_string(), created_keyboard_layout[0]);
     }
 
     #[test]
@@ -82,7 +87,7 @@ mod tests {
 
         assert_eq!(
             "123456qwertyasdfghzxcvbn".to_string(),
-            created_keyboard_layout
+            created_keyboard_layout[0]
         );
     }
 
@@ -96,7 +101,7 @@ mod tests {
 
         let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal);
 
-        assert_eq!("qwertyasdzxcvbn".to_string(), created_keyboard_layout);
+        assert_eq!("qwertyasdzxcvbn".to_string(), created_keyboard_layout[0]);
     }
 
     #[test]
@@ -105,7 +110,7 @@ mod tests {
 
         let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical);
 
-        assert_eq!("1234".to_string(), created_keyboard_layout);
+        assert_eq!("1234".to_string(), created_keyboard_layout[0]);
     }
 
     #[test]
@@ -121,7 +126,7 @@ mod tests {
 
         assert_eq!(
             "1qaz2wsx3edc4rfv5tgb6yhn".to_string(),
-            created_keyboard_layout
+            created_keyboard_layout[0]
         );
     }
 
@@ -135,7 +140,7 @@ mod tests {
 
         let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical);
 
-        assert_eq!("qazwsxedcrvtbyn".to_string(), created_keyboard_layout);
+        assert_eq!("qazwsxedcrvtbyn".to_string(), created_keyboard_layout[0]);
     }
     
     #[test]

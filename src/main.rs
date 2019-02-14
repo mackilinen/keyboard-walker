@@ -55,10 +55,10 @@ fn main() -> CliResult {
     };
     let keyboard_layout = if args.keyboard_file.as_os_str().is_empty() {
         vec![
-            "§1234567890+´".to_string(),
-            "qwertyuiopå¨".to_string(),
-            "asdfghjklöä'".to_string(),
-            "<zxcvbnm,.-".to_string(),
+            "1234567890+".to_string(),
+            "qwertyuiopå".to_string(),
+            "asdfghjklöä".to_string(),
+            "zxcvbnm".to_string(),
         ]
     } else {
         BufReader::new(File::open(&args.keyboard_file)?)

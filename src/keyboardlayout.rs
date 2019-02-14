@@ -25,7 +25,7 @@ fn get_keyboard_layout_string_capacity(keyboard_layout: &Vec<String>) -> usize {
 }
 
 fn merge_keyboard_layout_into_a_string(keyboard_layout: &Vec<String>) -> String {
-    let string_capacity = get_keyboard_layout_string_capacity(&keyboard_layout);
+    let string_capacity = get_keyboard_layout_string_capacity(keyboard_layout);
     let initial_string = String::with_capacity(string_capacity);
 
     keyboard_layout

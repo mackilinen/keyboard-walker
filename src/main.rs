@@ -22,7 +22,7 @@ struct Cli {
     #[structopt(long = "min", short = "m", default_value = "3")]
     min_length: usize,
     /// Maximum length of generated keyboard sequence
-    #[structopt(long = "max", short = "M", default_value = "3")]
+    #[structopt(long = "max", short = "M", default_value = "6")]
     max_length: usize,
     /// Strategy of generated keyboard sequence
     #[structopt(long = "strategy", short = "s", default_value = "All")]

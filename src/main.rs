@@ -38,7 +38,6 @@ struct Cli {
 fn main() -> Result<(), failure::Error> {
     
     let args = Cli::from_args();
-    // args.verbosity.setup_env_logger(&env!("CARGO_PKG_NAME"))?;
     
     let min_word_length = args.min_length;
     let max_word_length = args.max_length;

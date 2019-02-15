@@ -7,7 +7,7 @@ use std::io::{BufReader,BufWriter};
 use std::io::prelude::*;
 use std::path::PathBuf;
 use std::str::FromStr;
-use quicli::prelude::*;
+use failure;
 use structopt::StructOpt;
 use strum;
 
@@ -33,14 +33,12 @@ struct Cli {
     /// The keyboard layout file path
     #[structopt(long = "keyboard-file", short = "k", default_value = "", parse(from_os_str))]
     keyboard_file: PathBuf,
-    #[structopt(flatten)]
-    verbosity: Verbosity,
 }
 
-fn main() -> CliResult {
+fn main() -> Result<(), failure::Error> {
     
     let args = Cli::from_args();
-    args.verbosity.setup_env_logger(&env!("CARGO_PKG_NAME"))?;
+    // args.verbosity.setup_env_logger(&env!("CARGO_PKG_NAME"))?;
     
     let min_word_length = args.min_length;
     let max_word_length = args.max_length;

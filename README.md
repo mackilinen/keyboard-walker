@@ -35,7 +35,6 @@ $ keyboard-walker
 - Run the strategy in different orders¹
 - A prepend option, currently it's only appending the words
 - Configure the depth for the vertical strategy, so it can output a "qawsed" combination for example
-- The format of the keyboard file will change to json and json arrays, similar to <http://www.keyboard-layout-editor.com>
 
 ¹ It currently starts on the top left corner in a left to right & top to bottom order.
 

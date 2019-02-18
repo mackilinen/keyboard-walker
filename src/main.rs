@@ -52,16 +52,13 @@ fn main() -> Result<(), failure::Error> {
     };
     let keyboard_layout = if args.keyboard_file.as_os_str().is_empty() {
         vec![
-            "1234567890+".to_string(),
-            "qwertyuiopå".to_string(),
-            "asdfghjklöä".to_string(),
-            "zxcvbnm".to_string(),
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),"4".to_string(),"5".to_string(),"6".to_string(),"7".to_string(),"8".to_string(),"9".to_string(),"0".to_string(),"+".to_string()],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),"r".to_string(),"t".to_string(),"y".to_string(),"u".to_string(),"i".to_string(),"o".to_string(),"p".to_string(),"å".to_string()],
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),"f".to_string(),"g".to_string(),"h".to_string(),"j".to_string(),"k".to_string(),"l".to_string(),"ö".to_string(),"ä".to_string()],
+            vec!["z".to_string(),"x".to_string(),"c".to_string(),"v".to_string(),"b".to_string(),"n".to_string(),"m".to_string()],
         ]
     } else {
-        BufReader::new(File::open(&args.keyboard_file)?)
-            .lines()
-            .map(|l| l.unwrap())
-            .collect()
+        serde_json::from_reader(BufReader::new(File::open(&args.keyboard_file)?))?
     };
 
     let new_keyboard_layouts = keyboardlayout::create_keyboard_layout(keyboard_layout, strategy);

@@ -23,7 +23,7 @@ fn append_keyboard_word_to_word(word: String, keyboard_word: String) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[test]
     fn should_append_keyboard_word_to_word() {
         let word = String::from("Markus");

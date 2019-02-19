@@ -1,14 +1,22 @@
+#[derive(EnumString)]
+enum ConcatenateOrder {
+    Append,
+}
+
 pub fn append_keyboard_word_to_list_of_words(
     words: Vec<String>,
     keyboard_words: &Vec<String>,
 ) -> Vec<String> {
     let mut new_words: Vec<String> = vec![];
+    let order = ConcatenateOrder::Append;
     for word in words.iter() {
         for keyboard_word in keyboard_words.iter() {
-            new_words.push(append_keyboard_word_to_word(
-                word.to_string(),
-                keyboard_word.to_string(),
-            ));
+            match order {
+                ConcatenateOrder::Append => new_words.push(append_keyboard_word_to_word(
+                    word.to_string(),
+                    keyboard_word.to_string(),
+                )),
+            }
         }
     }
     new_words

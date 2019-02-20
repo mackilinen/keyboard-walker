@@ -80,7 +80,7 @@ fn main() -> Result<(), failure::Error> {
             max_word_length,
         ));
     }
-    let new_words = appender::append_keyboard_word_to_list_of_words(word_list, &keyboard_words);
+    let new_words = appender::append_keyboard_word_to_list_of_words(word_list, &keyboard_words, appender::ConcatenateOrder::Append);
 
     let mut output_words = Vec::new();
     output_words.extend(keyboard_words);

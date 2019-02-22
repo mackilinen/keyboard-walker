@@ -33,7 +33,6 @@ $ keyboard-walker
 ### To-Do
 
 - Run the strategy in different orders¹
-- A prepend option, currently it's only appending the words
 - Configure the depth for the vertical strategy, so it can output a "qawsed" combination for example
 
 ¹ It currently starts on the top left corner in a left to right & top to bottom order.

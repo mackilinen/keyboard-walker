@@ -4,7 +4,7 @@ pub enum ConcatenateOrder {
     Prepend,
 }
 
-pub fn append_keyboard_word_to_list_of_words(
+pub fn concatenate_keyboard_word_to_list_of_words(
     words: Vec<String>,
     keyboard_words: &Vec<String>,
     order: ConcatenateOrder,
@@ -71,7 +71,7 @@ mod tests {
         ];
         assert_eq!(
             expected_appended_word,
-            append_keyboard_word_to_list_of_words(words, &keyboard_words, ConcatenateOrder::Append)
+            concatenate_keyboard_word_to_list_of_words(words, &keyboard_words, ConcatenateOrder::Append)
         );
     }
 
@@ -101,7 +101,7 @@ mod tests {
         ];
         assert_eq!(
             expected_appended_word,
-            append_keyboard_word_to_list_of_words(words, &keyboard_words, ConcatenateOrder::Append)
+            concatenate_keyboard_word_to_list_of_words(words, &keyboard_words, ConcatenateOrder::Append)
         );
     }
     
@@ -133,7 +133,7 @@ mod tests {
         ];
         assert_eq!(
             expected_appended_word,
-            append_keyboard_word_to_list_of_words(words, &keyboard_words, ConcatenateOrder::Prepend)
+            concatenate_keyboard_word_to_list_of_words(words, &keyboard_words, ConcatenateOrder::Prepend)
         );
     }
     
@@ -163,7 +163,7 @@ mod tests {
         ];
         assert_eq!(
             expected_appended_word,
-            append_keyboard_word_to_list_of_words(words, &keyboard_words, ConcatenateOrder::Prepend)
+            concatenate_keyboard_word_to_list_of_words(words, &keyboard_words, ConcatenateOrder::Prepend)
         );
     }
 }

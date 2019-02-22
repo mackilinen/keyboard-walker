@@ -10,7 +10,7 @@ use std::str::FromStr;
 use structopt::StructOpt;
 use strum;
 
-mod appender;
+mod concatenator;
 mod keyboardlayout;
 mod walker;
 mod cli;
@@ -21,7 +21,7 @@ fn main() -> Result<(), failure::Error> {
     let min_word_length = args.min_length;
     let max_word_length = args.max_length;
     let strategy = keyboardlayout::Strategy::from_str(&args.strategy)?;
-    let concatenation = appender::ConcatenateOrder::from_str(&args.concatenation)?;
+    let concatenation = concatenator::ConcatenateOrder::from_str(&args.concatenation)?;
     let word_list = if args.words_file.as_os_str().is_empty() {
         Vec::new()
     } else {
@@ -44,14 +44,14 @@ fn main() -> Result<(), failure::Error> {
     let new_keyboard_layouts = keyboardlayout::create_keyboard_layout(keyboard_layout, strategy);
 
     let mut keyboard_words = vec![];
-    for new_keyboard_layout in new_keyboard_layouts {
+    for keyboard_layout in new_keyboard_layouts {
         keyboard_words.extend(walker::generate_words_from_keyboard_layout_with_min_max(
-            new_keyboard_layout,
+            keyboard_layout,
             min_word_length,
             max_word_length,
         ));
     }
-    let new_words = appender::append_keyboard_word_to_list_of_words(word_list, &keyboard_words, concatenation);
+    let new_words = concatenator::concatenate_keyboard_word_to_list_of_words(word_list, &keyboard_words, concatenation);
 
     let mut output_words = Vec::new();
     output_words.extend(keyboard_words);

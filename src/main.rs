@@ -41,10 +41,10 @@ fn main() -> Result<(), failure::Error> {
         serde_json::from_reader(BufReader::new(File::open(&args.keyboard_file)?))?
     };
 
-    let new_keyboard_layouts = keyboardlayout::create_keyboard_layout(keyboard_layout, strategy);
+    let keyboard_layouts = keyboardlayout::create_keyboard_layout(keyboard_layout, strategy);
 
     let mut keyboard_words = vec![];
-    for keyboard_layout in new_keyboard_layouts {
+    for keyboard_layout in keyboard_layouts {
         keyboard_words.extend(walker::generate_words_from_keyboard_layout_with_min_max(
             keyboard_layout,
             min_word_length,

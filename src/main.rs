@@ -21,7 +21,7 @@ fn main() -> Result<(), failure::Error> {
     let min_word_length = args.min_length;
     let max_word_length = args.max_length;
     let strategy = keyboardlayout::Strategy::from_str(&args.strategy)?;
-    let concatenation = concatenator::ConcatenateOrder::from_str(&args.concatenation)?;
+    let concatenation = concatenator::ConcatenationOrder::from_str(&args.concatenation)?;
     let word_list = if args.words_file.as_os_str().is_empty() {
         Vec::new()
     } else {

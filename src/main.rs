@@ -6,7 +6,6 @@ use std::fs::File;
 use std::io;
 use std::io::prelude::*;
 use std::io::{BufReader, BufWriter};
-use std::path::PathBuf;
 use std::str::FromStr;
 use structopt::StructOpt;
 use strum;
@@ -14,47 +13,19 @@ use strum;
 mod appender;
 mod keyboardlayout;
 mod walker;
-
-/// Generate passwords based on keyboard keys
-#[derive(Debug, StructOpt)]
-struct Cli {
-    /// Minimum length of generated keyboard sequence
-    #[structopt(long = "min", short = "m", default_value = "3")]
-    min_length: usize,
-    /// Maximum length of generated keyboard sequence
-    #[structopt(long = "max", short = "M", default_value = "6")]
-    max_length: usize,
-    /// Strategy of generated keyboard sequence
-    #[structopt(long = "strategy", short = "s", default_value = "All")]
-    strategy: String,
-    /// The word list file path
-    #[structopt(
-        long = "words-file",
-        short = "w",
-        default_value = "",
-        parse(from_os_str)
-    )]
-    file: PathBuf,
-    /// The keyboard layout file path
-    #[structopt(
-        long = "keyboard-file",
-        short = "k",
-        default_value = "",
-        parse(from_os_str)
-    )]
-    keyboard_file: PathBuf,
-}
+mod cli;
 
 fn main() -> Result<(), failure::Error> {
-    let args = Cli::from_args();
+    let args = cli::Cli::from_args();
 
     let min_word_length = args.min_length;
     let max_word_length = args.max_length;
     let strategy = keyboardlayout::Strategy::from_str(&args.strategy)?;
-    let word_list = if args.file.as_os_str().is_empty() {
+    let concatenation = appender::ConcatenateOrder::from_str(&args.concatenation)?;
+    let word_list = if args.words_file.as_os_str().is_empty() {
         Vec::new()
     } else {
-        BufReader::new(File::open(&args.file)?)
+        BufReader::new(File::open(&args.words_file)?)
             .lines()
             .map(|l| l.unwrap())
             .collect()
@@ -80,7 +51,7 @@ fn main() -> Result<(), failure::Error> {
             max_word_length,
         ));
     }
-    let new_words = appender::append_keyboard_word_to_list_of_words(word_list, &keyboard_words, appender::ConcatenateOrder::Append);
+    let new_words = appender::append_keyboard_word_to_list_of_words(word_list, &keyboard_words, concatenation);
 
     let mut output_words = Vec::new();
     output_words.extend(keyboard_words);

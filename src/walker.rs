@@ -6,13 +6,13 @@ pub fn generate_words_from_keyboard_layout_with_min_max(
     let mut generated_words: Vec<String> = Vec::new();
     let max_keyboard_layout_length = keyboard_layout_with_strategy.chars().count();
     let iterate_to_length = if max_word_length < max_keyboard_layout_length {
-        max_word_length + 1
+        max_word_length
     } else {
-        max_keyboard_layout_length + 1
+        max_keyboard_layout_length
     };
-    for length in min_word_length..iterate_to_length {
-        let iterate_to = max_keyboard_layout_length + 1 - length;
-        for i in 0..iterate_to {
+    for length in min_word_length..=iterate_to_length {
+        let iterate_to = max_keyboard_layout_length - length;
+        for i in 0..=iterate_to {
             let word = keyboard_layout_with_strategy
                 .chars()
                 .skip(i)

@@ -4,25 +4,39 @@ pub fn generate_words_from_keyboard_layout_with_min_max(
     max_word_length: usize,
 ) -> Vec<String> {
     let mut generated_words: Vec<String> = Vec::new();
-    let max_keyboard_layout_length = keyboard_layout_with_strategy.chars().count();
-    let iterate_to_length = if max_word_length < max_keyboard_layout_length {
-        max_word_length
-    } else {
-        max_keyboard_layout_length
-    };
+    let keyboard_layout_length = keyboard_layout_with_strategy.chars().count();
+    let iterate_to_length = get_iteration_length(max_word_length, keyboard_layout_length);
+    let index_start = 0;
+
     for length in min_word_length..=iterate_to_length {
-        let iterate_to = max_keyboard_layout_length - length;
-        for i in 0..=iterate_to {
-            let word = keyboard_layout_with_strategy
-                .chars()
-                .skip(i)
-                .take(length)
-                .collect();
+        let iterate_to = keyboard_layout_length - length;
+        for i in index_start..=iterate_to {
+            let word = get_word_from_keyboard_layout(&keyboard_layout_with_strategy, i, length);
             generated_words.push(word);
         }
     }
 
     generated_words
+}
+
+fn get_word_from_keyboard_layout(
+    keyboard_layout: &str,
+    index: usize,
+    number_of_chars: usize,
+) -> String {
+    keyboard_layout
+        .chars()
+        .skip(index)
+        .take(number_of_chars)
+        .collect()
+}
+
+fn get_iteration_length(max_word_length: usize, keyboard_layout_length: usize) -> usize {
+    if max_word_length < keyboard_layout_length {
+        max_word_length
+    } else {
+        keyboard_layout_length
+    }
 }
 
 #[cfg(test)]

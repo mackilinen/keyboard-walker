@@ -71,7 +71,11 @@ mod tests {
         ];
         assert_eq!(
             expected_appended_word,
-            concatenate_keyboard_word_to_list_of_words(words, &keyboard_words, ConcatenationOrder::Append)
+            concatenate_keyboard_word_to_list_of_words(
+                words,
+                &keyboard_words,
+                ConcatenationOrder::Append
+            )
         );
     }
 
@@ -101,10 +105,14 @@ mod tests {
         ];
         assert_eq!(
             expected_appended_word,
-            concatenate_keyboard_word_to_list_of_words(words, &keyboard_words, ConcatenationOrder::Append)
+            concatenate_keyboard_word_to_list_of_words(
+                words,
+                &keyboard_words,
+                ConcatenationOrder::Append
+            )
         );
     }
-    
+
     #[test]
     fn should_prepend_keyboard_word_to_word() {
         let word = String::from("Markus");
@@ -116,7 +124,7 @@ mod tests {
             prepend_keyboard_word_to_word(word, keyboard_word)
         );
     }
-    
+
     #[test]
     fn should_prepend_keyboard_word_to_a_list_of_words() {
         let words = vec![
@@ -133,10 +141,14 @@ mod tests {
         ];
         assert_eq!(
             expected_appended_word,
-            concatenate_keyboard_word_to_list_of_words(words, &keyboard_words, ConcatenationOrder::Prepend)
+            concatenate_keyboard_word_to_list_of_words(
+                words,
+                &keyboard_words,
+                ConcatenationOrder::Prepend
+            )
         );
     }
-    
+
     #[test]
     fn should_prepend_a_list_of_keyboard_words_to_a_list_of_words() {
         let words = vec![
@@ -163,7 +175,11 @@ mod tests {
         ];
         assert_eq!(
             expected_appended_word,
-            concatenate_keyboard_word_to_list_of_words(words, &keyboard_words, ConcatenationOrder::Prepend)
+            concatenate_keyboard_word_to_list_of_words(
+                words,
+                &keyboard_words,
+                ConcatenationOrder::Prepend
+            )
         );
     }
 }

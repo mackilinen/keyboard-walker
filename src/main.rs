@@ -10,10 +10,10 @@ use std::str::FromStr;
 use structopt::StructOpt;
 use strum;
 
+mod cli;
 mod concatenator;
 mod keyboardlayout;
 mod walker;
-mod cli;
 
 fn main() -> Result<(), failure::Error> {
     let args = cli::Cli::from_args();
@@ -51,7 +51,11 @@ fn main() -> Result<(), failure::Error> {
             max_word_length,
         ));
     }
-    let new_words = concatenator::concatenate_keyboard_word_to_list_of_words(word_list, &keyboard_words, concatenation);
+    let new_words = concatenator::concatenate_keyboard_word_to_list_of_words(
+        word_list,
+        &keyboard_words,
+        concatenation,
+    );
 
     let mut output_words = Vec::new();
     output_words.extend(keyboard_words);

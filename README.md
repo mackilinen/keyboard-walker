@@ -34,6 +34,7 @@ $ keyboard-walker
 
 - Run the strategy in different orders¹
 - Configure the depth for the vertical strategy, so it can output a "qawsed" combination for example
+- Possibility to write to a file instead of console output
 
 ¹ It currently starts on the top left corner in a left to right & top to bottom order.
 

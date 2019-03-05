@@ -189,4 +189,54 @@ mod tests {
 
         assert_eq!("qweasdzxc".to_string(), new_layout);
     }
+    
+    #[test]
+    fn create_new_layout_with_a_depth_of_one() {
+        let depth = 1;
+        let keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),],
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),],
+        ];
+
+        let created_keyboard_layout = create_layout_with_depth(&keyboard_layout, depth);
+        
+        let expected_keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),],
+            vec!["q".to_string(),"w".to_string(),],
+            vec!["a".to_string(),"s".to_string(),],
+            vec!["2".to_string(),"3".to_string(),],
+            vec!["w".to_string(),"e".to_string(),],
+            vec!["s".to_string(),"d".to_string(),],
+        ];
+        
+        assert_eq!(expected_keyboard_layout, created_keyboard_layout);
+    }
+    
+    fn create_layout_with_depth(layout: &Vec<Vec<String>>, depth: usize) -> Vec<Vec<String>> {
+        
+        let mut new_matrix: Vec<Vec<String>> = vec![];
+        
+        let row_length = layout.iter().fold(0, |count, item| {
+            let new_count = item.len();
+            if count < new_count {
+                new_count
+            } else {
+                count
+            }
+        });
+        
+        for j in 0..row_length-1 {
+            for i in 0..layout.len() {
+                let new_row: Vec<String> = layout[i].iter()
+                    .skip(j)
+                    .take(1+depth)
+                    .map(|x| x.to_string())
+                    .collect();
+                new_matrix.push(new_row);
+            }
+        }
+        
+        new_matrix
+    }
 }

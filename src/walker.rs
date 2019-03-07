@@ -5,6 +5,7 @@ pub fn generate_words_from_keyboard_layout_with_min_max(
 ) -> Vec<String> {
     let mut generated_words: Vec<String> = Vec::new();
     let keyboard_layout_length = keyboard_layout_with_strategy.chars().count();
+    
     let iterate_to_length = get_iteration_length(max_word_length, keyboard_layout_length);
     let index_start = 0;
 
@@ -145,5 +146,15 @@ mod tests {
         assert!(generated_words.iter().count() == 3);
         assert!(generated_words.contains(&first_word));
         assert!(generated_words.contains(&last_word));
+    }
+    
+    #[test]
+    fn dont_generate_word_from_empty_keyboard_layout() {
+        let keyboard_layout = "".to_string();
+        let word_length = 3;
+
+        let generated_words = generate_words_from_keyboard_layout(keyboard_layout, word_length);
+
+        assert_eq!(0, generated_words.len());
     }
 }

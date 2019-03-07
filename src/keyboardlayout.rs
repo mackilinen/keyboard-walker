@@ -11,15 +11,17 @@ pub fn create_keyboard_layout(
 ) -> Vec<String> {
     match strategy {
         Strategy::Horizontal => vec![merge_keyboard_layout_into_a_string(&keyboard_layout)],
-        Strategy::Vertical => vec![merge_keyboard_layout_into_a_string(
-            &turn_horizontal_into_vertical_keyboard_layout(keyboard_layout),
-        )],
-        Strategy::All => vec![
-            merge_keyboard_layout_into_a_string(&keyboard_layout),
-            merge_keyboard_layout_into_a_string(&turn_horizontal_into_vertical_keyboard_layout(
-                keyboard_layout,
-            )),
-        ],
+        Strategy::Vertical => {
+            let vertical_layout = turn_horizontal_into_vertical_keyboard_layout(&keyboard_layout);
+            vec![merge_keyboard_layout_into_a_string(&vertical_layout)]
+        }
+        Strategy::All => {
+            let vertical_layout = turn_horizontal_into_vertical_keyboard_layout(&keyboard_layout);
+            vec![
+                merge_keyboard_layout_into_a_string(&keyboard_layout),
+                merge_keyboard_layout_into_a_string(&vertical_layout),
+            ]
+        }
     }
 }
 
@@ -44,7 +46,7 @@ fn merge_keyboard_layout_into_a_string(keyboard_layout: &Vec<Vec<String>>) -> St
 }
 
 fn turn_horizontal_into_vertical_keyboard_layout(
-    keyboard_layout: Vec<Vec<String>>,
+    keyboard_layout: &Vec<Vec<String>>,
 ) -> Vec<Vec<String>> {
     let mut new_layout: Vec<Vec<String>> = vec![];
 
@@ -165,7 +167,7 @@ mod tests {
             vec!["z".to_string(), "x".to_string(), "c".to_string()],
         ];
 
-        let new_layout = turn_horizontal_into_vertical_keyboard_layout(keyboard_layout);
+        let new_layout = turn_horizontal_into_vertical_keyboard_layout(&keyboard_layout);
 
         assert_eq!(
             vec![

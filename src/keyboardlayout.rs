@@ -213,9 +213,90 @@ mod tests {
         assert_eq!(expected_keyboard_layout, created_keyboard_layout);
     }
     
+    #[test]
+    fn create_new_layout_with_a_depth_of_zero() {
+        
+        let depth = 0;
+        let keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),],
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),],
+        ];
+
+        let created_keyboard_layout = create_layout_with_depth(&keyboard_layout, depth);
+        
+        let expected_keyboard_layout: Vec<Vec<String>> = vec![];
+        
+        assert_eq!(expected_keyboard_layout, created_keyboard_layout);
+    }
+    
+    #[test]
+    fn create_new_layout_with_a_depth_of_two() {
+        let depth = 2;
+        let keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),],
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),],
+        ];
+
+        let created_keyboard_layout = create_layout_with_depth(&keyboard_layout, depth);
+        
+        let expected_keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),],
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),],
+        ];
+        
+        assert_eq!(expected_keyboard_layout, created_keyboard_layout);
+    }
+    
+    #[test]
+    fn create_new_layout_with_a_depth_of_three() {
+        let depth = 3;
+        let keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),],
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),],
+        ];
+
+        let created_keyboard_layout = create_layout_with_depth(&keyboard_layout, depth);
+        
+        let expected_keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),],
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),],
+        ];
+        
+        assert_eq!(expected_keyboard_layout, created_keyboard_layout);
+    }
+    
+    #[test]
+    fn create_new_layout_with_a_depth_of_four() {
+        let depth = 4;
+        let keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),],
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),],
+        ];
+
+        let created_keyboard_layout = create_layout_with_depth(&keyboard_layout, depth);
+        
+        let expected_keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),],
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),],
+        ];
+        
+        assert_eq!(expected_keyboard_layout, created_keyboard_layout);
+    }
+    
     fn create_layout_with_depth(layout: &Vec<Vec<String>>, depth: usize) -> Vec<Vec<String>> {
         
         let mut new_matrix: Vec<Vec<String>> = vec![];
+        
+        if depth <= 0 {
+            return new_matrix
+        }
         
         let row_length = layout.iter().fold(0, |count, item| {
             let new_count = item.len();
@@ -226,11 +307,17 @@ mod tests {
             }
         });
         
-        for j in 0..row_length-1 {
+        let new_depth = if depth >= row_length {
+            row_length-1
+        } else {
+            depth
+        };
+        
+        for j in 0..row_length-new_depth {
             for i in 0..layout.len() {
                 let new_row: Vec<String> = layout[i].iter()
                     .skip(j)
-                    .take(1+depth)
+                    .take(1+new_depth)
                     .map(|x| x.to_string())
                     .collect();
                 new_matrix.push(new_row);

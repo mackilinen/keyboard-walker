@@ -10,17 +10,23 @@ pub fn create_keyboard_layout(
     strategy: Strategy,
 ) -> Vec<String> {
     match strategy {
-        Strategy::Horizontal => vec![merge_keyboard_layout_into_a_string(&keyboard_layout)],
+        Strategy::Horizontal => {
+            let mut keyboard_layouts = vec![];
+            keyboard_layouts.push(merge_keyboard_layout_into_a_string(&keyboard_layout));
+            keyboard_layouts
+        }
         Strategy::Vertical => {
+            let mut keyboard_layouts = vec![];
             let vertical_layout = turn_horizontal_into_vertical_keyboard_layout(&keyboard_layout);
-            vec![merge_keyboard_layout_into_a_string(&vertical_layout)]
+            keyboard_layouts.push(merge_keyboard_layout_into_a_string(&vertical_layout));
+            keyboard_layouts
         }
         Strategy::All => {
+            let mut keyboard_layouts = vec![];
             let vertical_layout = turn_horizontal_into_vertical_keyboard_layout(&keyboard_layout);
-            vec![
-                merge_keyboard_layout_into_a_string(&keyboard_layout),
-                merge_keyboard_layout_into_a_string(&vertical_layout),
-            ]
+            keyboard_layouts.push(merge_keyboard_layout_into_a_string(&keyboard_layout));
+            keyboard_layouts.push(merge_keyboard_layout_into_a_string(&vertical_layout));
+            keyboard_layouts
         }
     }
 }

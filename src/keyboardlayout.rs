@@ -86,6 +86,30 @@ mod tests {
     use super::*;
 
     #[test]
+    fn vertical_and_horizontal_strategy_creates_one_keyboard_each () {
+        let keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),"4".to_string(),]
+        ];
+        
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal);
+        assert!(created_keyboard_layout.len() == 1);
+        
+        let keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),"4".to_string(),]
+        ];
+        
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical);
+        assert!(created_keyboard_layout.len() == 1);
+        
+        let keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),"4".to_string(),]
+        ];
+        
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::All);
+        assert!(created_keyboard_layout.len() == 2);
+    }
+
+    #[test]
     fn create_a_new_keyboard_layout_with_horizontal_strategy_should_handle_1_row() {
         let keyboard_layout = vec![
             vec!["1".to_string(),"2".to_string(),"3".to_string(),"4".to_string(),]

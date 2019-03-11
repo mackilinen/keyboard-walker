@@ -17,7 +17,8 @@ mod walker;
 
 fn main() -> Result<(), failure::Error> {
     let args = cli::Cli::from_args();
-
+    
+    let depths = args.depths;
     let min_word_length = args.min_length;
     let max_word_length = args.max_length;
     let strategy = keyboardlayout::Strategy::from_str(&args.strategy)?;
@@ -41,7 +42,7 @@ fn main() -> Result<(), failure::Error> {
         serde_json::from_reader(BufReader::new(File::open(&args.keyboard_file)?))?
     };
 
-    let keyboard_layouts = keyboardlayout::create_keyboard_layout(keyboard_layout, strategy, 0);
+    let keyboard_layouts = keyboardlayout::create_keyboard_layout(keyboard_layout, strategy, depths);
 
     let mut keyboard_words = vec![];
     for keyboard_layout in keyboard_layouts {

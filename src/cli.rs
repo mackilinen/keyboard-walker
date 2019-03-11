@@ -22,4 +22,7 @@ pub struct Cli {
     /// Concatenation order of the keyboard sequence on the word [values: Append, Prepend]
     #[structopt(long, short, default_value = "Append")]
     pub concatenation: String,
+    /// How deep to go on the keyboard rows
+    #[structopt(long, short, default_value = "0")]
+    pub depths: usize,
 }

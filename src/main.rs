@@ -62,14 +62,18 @@ fn main() -> Result<(), failure::Error> {
     output_words.extend(keyboard_words);
     output_words.extend(new_words);
 
-    {
-        let stdout = io::stdout();
-        let mut buf = BufWriter::new(stdout.lock());
+    print_to_stdout(output_words)?;
 
-        for line in output_words.iter() {
-            writeln!(buf, "{}", line)?;
-        }
+    Ok(())
+}
+
+fn print_to_stdout(output: Vec<String>) -> Result<(), failure::Error> {
+    let stdout = io::stdout();
+    let mut buf = BufWriter::new(stdout.lock());
+
+    for line in output.iter() {
+        writeln!(buf, "{}", line)?;
     }
-
+    
     Ok(())
 }

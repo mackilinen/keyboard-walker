@@ -33,7 +33,6 @@ $ keyboard-walker
 ### To-Do
 
 - Run the strategy in different orders¹
-- Possibility to write to a file instead of console output
 
 ¹ It currently starts on the top left corner in a left to right & top to bottom order.
 

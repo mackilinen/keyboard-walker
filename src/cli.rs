@@ -25,4 +25,7 @@ pub struct Cli {
     /// How deep to go on the keyboard rows
     #[structopt(long, short, default_value = "0")]
     pub depths: usize,
+    /// File path to write output to (overwrite file if exist)
+    #[structopt(long, short, default_value = "", parse(from_os_str))]
+    pub output_file: PathBuf,
 }

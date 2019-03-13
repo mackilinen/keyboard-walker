@@ -1,6 +1,8 @@
 #[macro_use]
 extern crate strum_macros;
 
+use std::path::PathBuf;
+use std::error::Error;
 use failure;
 use std::fs::File;
 use std::io;
@@ -62,7 +64,11 @@ fn main() -> Result<(), failure::Error> {
     output_words.extend(keyboard_words);
     output_words.extend(new_words);
 
-    print_to_stdout(output_words)?;
+    if !args.output_file.as_os_str().is_empty() {
+        print_to_file(output_words, args.output_file)?;
+    } else {
+        print_to_stdout(output_words)?;
+    }
 
     Ok(())
 }
@@ -71,6 +77,20 @@ fn print_to_stdout(output: Vec<String>) -> Result<(), failure::Error> {
     let stdout = io::stdout();
     let mut buf = BufWriter::new(stdout.lock());
 
+    for line in output.iter() {
+        writeln!(buf, "{}", line)?;
+    }
+    
+    Ok(())
+}
+
+fn print_to_file(output: Vec<String>, filepath: PathBuf) -> Result<(), failure::Error> {
+    let file = match File::create(&filepath) {
+        Err(why) => panic!("couldn't create {}: {}", filepath.display(), why.description()),
+        Ok(file) => file,
+    };
+    let mut buf = BufWriter::new(file);
+    
     for line in output.iter() {
         writeln!(buf, "{}", line)?;
     }

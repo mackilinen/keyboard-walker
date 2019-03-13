@@ -33,6 +33,8 @@ $ keyboard-walker
 ### To-Do
 
 - Run the strategy in different orders¹
+  - Now: qweasd
+  - Example: asdqwe, ewqdsa or dsaewq
 
 ¹ It currently starts on the top left corner in a left to right & top to bottom order.
 

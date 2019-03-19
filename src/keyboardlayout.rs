@@ -10,48 +10,52 @@ pub fn create_keyboard_layout(
     strategy: Strategy,
     depths: usize
 ) -> Vec<String> {
+    let keyboard_layouts = apply_strategy_and_depths(keyboard_layout, strategy, depths);
+    keyboard_layouts.iter()
+        .map(|layout| merge_keyboard_layout_into_a_string(layout))
+        .collect()
+}
+
+fn apply_strategy_and_depths(
+    keyboard_layout: Vec<Vec<String>>,
+    strategy: Strategy,
+    depths: usize
+) -> Vec<Vec<Vec<String>>> {
+    let mut keyboard_layouts = vec![];
     match strategy {
         Strategy::Horizontal => {
-            let mut keyboard_layouts = vec![];
-            keyboard_layouts.push(merge_keyboard_layout_into_a_string(&keyboard_layout));
+            let keyboard_layouts_with_depth = create_keyboard_layout_with_depths(&keyboard_layout, 0, depths);
             
-            for depth in 0..depths {
-                let layout_with_depth = create_layout_with_depth(&keyboard_layout, depth+1);
-                keyboard_layouts.push(merge_keyboard_layout_into_a_string(&layout_with_depth));
-            }
-            
-            keyboard_layouts
+            keyboard_layouts.push(keyboard_layout);
+            keyboard_layouts.extend(keyboard_layouts_with_depth);
         }
         Strategy::Vertical => {
-            let mut keyboard_layouts = vec![];
             let vertical_layout = turn_horizontal_into_vertical_keyboard_layout(&keyboard_layout);
-            keyboard_layouts.push(merge_keyboard_layout_into_a_string(&vertical_layout));
+            let keyboard_layouts_with_depth = create_keyboard_layout_with_depths(&vertical_layout, 0, depths);
             
-            for depth in 0..depths {
-                let layout_with_depth = create_layout_with_depth(&vertical_layout, depth+1);
-                keyboard_layouts.push(merge_keyboard_layout_into_a_string(&layout_with_depth));
-            }
-            
-            keyboard_layouts
+            keyboard_layouts.push(vertical_layout);
+            keyboard_layouts.extend(keyboard_layouts_with_depth);
         }
         Strategy::All => {
-            let mut keyboard_layouts = vec![];
             let vertical_layout = turn_horizontal_into_vertical_keyboard_layout(&keyboard_layout);
+            let keyboard_layouts_with_depth = create_keyboard_layout_with_depths(&keyboard_layout, 0, depths);
+            let vertical_layouts_with_depth = create_keyboard_layout_with_depths(&vertical_layout, 0, depths);
             
-            keyboard_layouts.push(merge_keyboard_layout_into_a_string(&keyboard_layout));
-            keyboard_layouts.push(merge_keyboard_layout_into_a_string(&vertical_layout));
-            
-            for depth in 0..depths {
-                let mut layout_with_depth = create_layout_with_depth(&keyboard_layout, depth+1);
-                keyboard_layouts.push(merge_keyboard_layout_into_a_string(&layout_with_depth));
-                
-                layout_with_depth = create_layout_with_depth(&vertical_layout, depth+1);
-                keyboard_layouts.push(merge_keyboard_layout_into_a_string(&layout_with_depth));
-            }
-            
-            keyboard_layouts
+            keyboard_layouts.push(keyboard_layout);
+            keyboard_layouts.push(vertical_layout);
+            keyboard_layouts.extend(keyboard_layouts_with_depth);
+            keyboard_layouts.extend(vertical_layouts_with_depth);
         }
     }
+    keyboard_layouts
+}
+
+fn create_keyboard_layout_with_depths(keyboard_layout: &Vec<Vec<String>>, from_depth: usize, to_depth: usize) -> Vec<Vec<Vec<String>>> {
+    let mut keyboard_layouts = vec![];
+    for depth in from_depth..to_depth {
+        keyboard_layouts.push(create_layout_with_depth(keyboard_layout, depth+1));
+    }
+    keyboard_layouts
 }
 
 fn get_keyboard_layout_string_capacity(keyboard_layout: &Vec<Vec<String>>) -> usize {

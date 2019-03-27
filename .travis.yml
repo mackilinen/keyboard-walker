@@ -2,18 +2,29 @@ language: rust
 sudo: false
 cache: cargo
 
-DEPLOY_TO_GITHUB: &DEPLOY_TO_GITHUB
-  before_deploy:
-  - git config --local user.name "Markus Eriksson"
-  - git config --local user.email "markus.eriksson.88@gmail.com"
-  - archivename="keyboard-walker-$TRAVIS_TAG-$TARGET"
-  - mkdir $archivename
-  - cp target/$TARGET/release/keyboard-walker $archivename/
-  - cp README.md $archivename/
-  - cp LICENSE.txt $archivename/  
-  - archivefile="$archivename.tar.gz"
-  - tar czvf $archivefile $archivename
-  deploy: &GITHUB_DEPLOY
+PACKAGE_TAR: &PACKAGE_TAR
+    - git config --local user.name "Markus Eriksson"
+    - git config --local user.email "markus.eriksson.88@gmail.com"
+    - archivename="keyboard-walker-$TRAVIS_TAG-$TARGET"
+    - mkdir $archivename
+    - cp target/$TARGET/release/keyboard-walker $archivename/
+    - cp README.md $archivename/
+    - cp LICENSE.txt $archivename/  
+    - archivefile="$archivename.tar.gz"
+    - tar czvf $archivefile $archivename
+
+PACKAGE_7Z: &PACKAGE_7Z
+    - git config --local user.name "Markus Eriksson"
+    - git config --local user.email "markus.eriksson.88@gmail.com"
+    - archivename="keyboard-walker-$TRAVIS_TAG-$TARGET"
+    - mkdir $archivename
+    - cp target/$TARGET/release/keyboard-walker.exe $archivename/
+    - cp README.md $archivename/
+    - cp LICENSE.txt $archivename/
+    - archivefile="$archivename.zip"
+    - 7z a "$archivefile" "$archivename"
+
+DEPLOY_GITHUB: &DEPLOY_GITHUB
     provider: releases
     api_key:
       secure: th2zKxaR4xLormw6mkKorsjmfilYDPq6zLlCjgo+veA4nABs6/SffJdQQT0vlgwCy6aieBZU87kw3CR/zCSCV5HUinhTsg9Q7BaJeNE6URghAsk81DQ1G02fnmkc1Cch2F2Qz5HR55ZOWHoHShR8uqS+b90RBzpirZqfD+IWrsvCTRfq81q4qX0NIHtLXgkzSYr1NShL4hNriUhQJf0qc+Tzcqqr01dyZUZcFbF6GPMNj9gb48Bs7z1rUK4GK05zMS1x0bAigZPRvhCmANnswVLnSvtKUUUk3MILxOmv99/rWs1s5VpQaRZBSXjoIsDVY3AiY4Zo3fYuopSntBHzaCrjyKXrV5B3ULQfiAJQmY9wpABDxvE1MZDAbQPgp2rBIQkO+/sGpTjaJje9i6Fdm7ge9X8Xt5b/1rFVK7OrArmiZyuQJ3ViE71wYvDpsNIDtHgd5tfKGV6476mJ6C73AvS5xCVZuq/Lnh7B97xVAc0L3QFwKBUM5hqPDDfoQxvmkO8Rb77dunrN858opgCDagNNu8IweO2EBzwOlS1Uxlg0HHwoIzlevieTo7b3hLq6ThItE9V6eYr4F6Je5aoq036+D9TxDqSa9N4XCzofPqwwZbMwDWF0cnrRs541a9lz0W2yj+7rB+WfbsAE1xx3y7c6S7Fq+LyrQ5KEXfrL52s=
@@ -22,7 +33,7 @@ DEPLOY_TO_GITHUB: &DEPLOY_TO_GITHUB
     on:
       branch: master
       tags: true
-      
+
 matrix:
   include:
   
@@ -40,7 +51,8 @@ matrix:
       apt:
         packages:
         - musl-tools
-    <<: *DEPLOY_TO_GITHUB
+    before_deploy: *PACKAGE_TAR
+    deploy: *DEPLOY_GITHUB
         
   - name: macOS Binary
     env: MACOSX_DEPLOYMENT_TARGET=10.7 TARGET=x86_64-apple-darwin
@@ -48,7 +60,8 @@ matrix:
     rust: stable
     script: cargo build --release --target $TARGET --locked
     install: true
-    <<: *DEPLOY_TO_GITHUB
+    before_deploy: *PACKAGE_TAR
+    deploy: *DEPLOY_GITHUB
     
   - name: Windows Binary
     env: TARGET=x86_64-pc-windows-msvc
@@ -56,18 +69,9 @@ matrix:
     filter_secrets: false
     rust: stable
     script: cargo build --release --target $TARGET --locked
-    before_deploy:
-      - git config --local user.name "Markus Eriksson"
-      - git config --local user.email "markus.eriksson.88@gmail.com"
-      - archivename="keyboard-walker-$TRAVIS_TAG-$TARGET"
-      - mkdir $archivename
-      - cp target/$TARGET/release/keyboard-walker.exe $archivename/
-      - cp README.md $archivename/
-      - cp LICENSE.txt $archivename/
-      - archivefile="$archivename.zip"
-      - 7z a "$archivefile" "$archivename"
-    deploy: *GITHUB_DEPLOY
-    
+    before_deploy: *PACKAGE_7Z
+    deploy: *DEPLOY_GITHUB
+
 notifications:
   email:
     on_success: never

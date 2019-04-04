@@ -2,18 +2,7 @@ language: rust
 sudo: false
 cache: cargo
 
-PACKAGE_TAR: &PACKAGE_TAR
-    - git config --local user.name "Markus Eriksson"
-    - git config --local user.email "markus.eriksson.88@gmail.com"
-    - archivename="keyboard-walker-$TRAVIS_TAG-$TARGET"
-    - mkdir $archivename
-    - cp target/$TARGET/release/keyboard-walker $archivename/
-    - cp README.md $archivename/
-    - cp LICENSE.txt $archivename/  
-    - archivefile="$archivename.tar.gz"
-    - tar czvf $archivefile $archivename
-
-PACKAGE_7Z: &PACKAGE_7Z
+PRE_PACKAGE: &PRE_PACKAGE
     - git config --local user.name "Markus Eriksson"
     - git config --local user.email "markus.eriksson.88@gmail.com"
     - archivename="keyboard-walker-$TRAVIS_TAG-$TARGET"
@@ -21,6 +10,14 @@ PACKAGE_7Z: &PACKAGE_7Z
     - cp target/$TARGET/release/keyboard-walker $archivename/
     - cp README.md $archivename/
     - cp LICENSE.txt $archivename/
+    
+PACKAGE_TAR: &PACKAGE_TAR
+    *PRE_PACKAGE
+    - archivefile="$archivename.tar.gz"
+    - tar czvf $archivefile $archivename
+
+PACKAGE_7Z: &PACKAGE_7Z
+    *PRE_PACKAGE
     - archivefile="$archivename.zip"
     - 7z a "$archivefile" "$archivename"
 

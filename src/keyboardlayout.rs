@@ -453,4 +453,60 @@ mod tests {
         
         assert_eq!(expected_keyboard_layout, created_keyboard_layout);
     }
+    
+    fn reverse_row_order(keyboard_layout: &Vec<Vec<String>>) -> Vec<Vec<String>> {
+        
+        // What is the difference here?
+        
+        let mut keyboard_layout_rev = keyboard_layout.to_vec();
+        keyboard_layout_rev.reverse();
+        keyboard_layout_rev
+
+        // keyboard_layout.iter()
+        //     .rev()
+        //     .map(|v| v.to_vec())
+        //     .collect()
+    }
+    
+    #[test]
+    fn create_new_layout_with_reversed_rows() {
+        // To get bottom to top and left to right order
+        let keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),],
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),],
+        ];
+
+        let created_keyboard_layout = reverse_row_order(&keyboard_layout);
+        
+        let expected_keyboard_layout = vec![
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),],
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),],
+        ];
+        
+        assert_eq!(expected_keyboard_layout, created_keyboard_layout);
+    }
+    
+     #[test]
+    fn turn_keyboard_layout_vertical_2() {
+        // To get bottom to top and left to right order for vertical
+        let keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),],
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),],
+        ];
+        
+        let created_keyboard_layout = reverse_row_order(&keyboard_layout);
+        let new_layout = turn_horizontal_into_vertical_keyboard_layout(&created_keyboard_layout);
+
+        assert_eq!(
+            vec![
+                vec!["a".to_string(), "q".to_string(), "1".to_string()],
+                vec!["s".to_string(), "w".to_string(), "2".to_string()],
+                vec!["d".to_string(), "e".to_string(), "3".to_string()],
+            ],
+            new_layout
+        );
+    }
 }

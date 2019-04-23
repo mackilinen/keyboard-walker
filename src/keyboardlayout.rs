@@ -568,4 +568,47 @@ mod tests {
         
         assert_eq!(expected_keyboard_layout, reversed_columns_vertical_keyboard_layout);
     }
+    
+    #[test]
+    fn horizontal_keyboard_layout_bottom_to_top_right_to_left() {
+        
+        let horizontal_keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),],
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),],
+        ];
+
+        let reversed_rows_horizontal_keyboard_layout = reverse_row_order(&horizontal_keyboard_layout);
+        let reversed_columns_horizontal_keyboard_layout = reverse_column_order(&reversed_rows_horizontal_keyboard_layout);
+        
+        let expected_keyboard_layout = vec![
+            vec!["d".to_string(),"s".to_string(),"a".to_string()],
+            vec!["e".to_string(),"w".to_string(),"q".to_string()],
+            vec!["3".to_string(),"2".to_string(),"1".to_string()],
+        ];
+        
+        assert_eq!(expected_keyboard_layout, reversed_columns_horizontal_keyboard_layout);
+    }
+    
+     #[test]
+    fn vertical_keyboard_layout_bottom_to_top_right_to_left() {
+        
+        let horizontal_keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),],
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),],
+        ];
+        
+        let reversed_rows_horizontal_keyboard_layout = reverse_row_order(&horizontal_keyboard_layout);
+        let reversed_columns_horizontal_keyboard_layout = reverse_column_order(&reversed_rows_horizontal_keyboard_layout);
+        let reversed_columns_vertical_keyboard_layout = turn_horizontal_into_vertical_keyboard_layout(&reversed_columns_horizontal_keyboard_layout);
+        
+        let expected_keyboard_layout = vec![
+            vec!["d".to_string(), "e".to_string(), "3".to_string()],
+            vec!["s".to_string(), "w".to_string(), "2".to_string()],
+            vec!["a".to_string(), "q".to_string(), "1".to_string()],
+        ];
+        
+        assert_eq!(expected_keyboard_layout, reversed_columns_vertical_keyboard_layout);
+    }
 }

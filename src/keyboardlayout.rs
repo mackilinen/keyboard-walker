@@ -488,7 +488,7 @@ mod tests {
         assert_eq!(expected_keyboard_layout, reversed_rows_horizontal_keyboard_layout);
     }
     
-     #[test]
+    #[test]
     fn vertical_keyboard_layout_reverse_row_order() {
         
         let horizontal_keyboard_layout = vec![
@@ -507,5 +507,65 @@ mod tests {
         ];
             
         assert_eq!(expected_keyboard_layout, reversed_rows_vertical_keyboard_layout);
+    }
+    
+    fn reverse_column_order(keyboard_layout: &Vec<Vec<String>>) -> Vec<Vec<String>> {
+        
+        // What is the difference here?
+        
+        let mut keyboard_layout_rev = keyboard_layout.to_vec();
+        for row in &mut keyboard_layout_rev {
+            row.reverse();
+        }
+        keyboard_layout_rev
+
+        // keyboard_layout.iter()
+        //     .map(|v| v.iter()
+        //         .rev()
+        //         .map(|v| v.to_string())
+        //         .collect()
+        //     )
+        //     .collect()
+    }
+    
+    #[test]
+    fn horizontal_keyboard_layout_reverse_column_order() {
+        
+        let horizontal_keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),],
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),],
+        ];
+
+        let reversed_columns_horizontal_keyboard_layout = reverse_column_order(&horizontal_keyboard_layout);
+        
+        let expected_keyboard_layout = vec![
+            vec!["3".to_string(),"2".to_string(),"1".to_string()],
+            vec!["e".to_string(),"w".to_string(),"q".to_string()],
+            vec!["d".to_string(),"s".to_string(),"a".to_string()],
+        ];
+        
+        assert_eq!(expected_keyboard_layout, reversed_columns_horizontal_keyboard_layout);
+    }
+    
+    #[test]
+    fn vertical_keyboard_layout_reverse_column_order() {
+        
+        let horizontal_keyboard_layout = vec![
+            vec!["1".to_string(),"2".to_string(),"3".to_string(),],
+            vec!["q".to_string(),"w".to_string(),"e".to_string(),],
+            vec!["a".to_string(),"s".to_string(),"d".to_string(),],
+        ];
+        
+        let reversed_columns_horizontal_keyboard_layout = reverse_column_order(&horizontal_keyboard_layout);
+        let reversed_columns_vertical_keyboard_layout = turn_horizontal_into_vertical_keyboard_layout(&reversed_columns_horizontal_keyboard_layout);
+        
+        let expected_keyboard_layout = vec![
+            vec!["3".to_string(), "e".to_string(), "d".to_string()],
+            vec!["2".to_string(), "w".to_string(), "s".to_string()],
+            vec!["1".to_string(), "q".to_string(), "a".to_string()],
+        ];
+        
+        assert_eq!(expected_keyboard_layout, reversed_columns_vertical_keyboard_layout);
     }
 }

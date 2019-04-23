@@ -469,7 +469,7 @@ mod tests {
     }
     
     #[test]
-    fn horizontal_keyboard_layout_reverse_row_order() {
+    fn horizontal_keyboard_layout_bottom_to_top_left_to_right() {
         
         let horizontal_keyboard_layout = vec![
             vec!["1".to_string(),"2".to_string(),"3".to_string(),],
@@ -489,7 +489,7 @@ mod tests {
     }
     
     #[test]
-    fn vertical_keyboard_layout_reverse_row_order() {
+    fn vertical_keyboard_layout_bottom_to_top_left_to_right() {
         
         let horizontal_keyboard_layout = vec![
             vec!["1".to_string(),"2".to_string(),"3".to_string(),],
@@ -529,7 +529,7 @@ mod tests {
     }
     
     #[test]
-    fn horizontal_keyboard_layout_reverse_column_order() {
+    fn horizontal_keyboard_layout_top_to_bottom_right_to_left() {
         
         let horizontal_keyboard_layout = vec![
             vec!["1".to_string(),"2".to_string(),"3".to_string(),],
@@ -549,7 +549,7 @@ mod tests {
     }
     
     #[test]
-    fn vertical_keyboard_layout_reverse_column_order() {
+    fn vertical_keyboard_layout_top_to_bottom_right_to_left() {
         
         let horizontal_keyboard_layout = vec![
             vec!["1".to_string(),"2".to_string(),"3".to_string(),],

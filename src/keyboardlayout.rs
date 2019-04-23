@@ -469,15 +469,15 @@ mod tests {
     }
     
     #[test]
-    fn create_new_layout_with_reversed_rows() {
-        // To get bottom to top and left to right order
-        let keyboard_layout = vec![
+    fn horizontal_keyboard_layout_reverse_row_order() {
+        
+        let horizontal_keyboard_layout = vec![
             vec!["1".to_string(),"2".to_string(),"3".to_string(),],
             vec!["q".to_string(),"w".to_string(),"e".to_string(),],
             vec!["a".to_string(),"s".to_string(),"d".to_string(),],
         ];
 
-        let created_keyboard_layout = reverse_row_order(&keyboard_layout);
+        let reversed_rows_horizontal_keyboard_layout = reverse_row_order(&horizontal_keyboard_layout);
         
         let expected_keyboard_layout = vec![
             vec!["a".to_string(),"s".to_string(),"d".to_string(),],
@@ -485,20 +485,20 @@ mod tests {
             vec!["1".to_string(),"2".to_string(),"3".to_string(),],
         ];
         
-        assert_eq!(expected_keyboard_layout, created_keyboard_layout);
+        assert_eq!(expected_keyboard_layout, reversed_rows_horizontal_keyboard_layout);
     }
     
      #[test]
-    fn turn_keyboard_layout_vertical_2() {
-        // To get bottom to top and left to right order for vertical
-        let keyboard_layout = vec![
+    fn vertical_keyboard_layout_reverse_row_order() {
+        
+        let horizontal_keyboard_layout = vec![
             vec!["1".to_string(),"2".to_string(),"3".to_string(),],
             vec!["q".to_string(),"w".to_string(),"e".to_string(),],
             vec!["a".to_string(),"s".to_string(),"d".to_string(),],
         ];
         
-        let created_keyboard_layout = reverse_row_order(&keyboard_layout);
-        let new_layout = turn_horizontal_into_vertical_keyboard_layout(&created_keyboard_layout);
+        let reversed_rows_horizontal_keyboard_layout = reverse_row_order(&horizontal_keyboard_layout);
+        let reversed_rows_vertical_keyboard_layout = turn_horizontal_into_vertical_keyboard_layout(&reversed_rows_horizontal_keyboard_layout);
 
         assert_eq!(
             vec![
@@ -506,7 +506,7 @@ mod tests {
                 vec!["s".to_string(), "w".to_string(), "2".to_string()],
                 vec!["d".to_string(), "e".to_string(), "3".to_string()],
             ],
-            new_layout
+            reversed_rows_vertical_keyboard_layout
         );
     }
 }

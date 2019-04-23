@@ -499,14 +499,13 @@ mod tests {
         
         let reversed_rows_horizontal_keyboard_layout = reverse_row_order(&horizontal_keyboard_layout);
         let reversed_rows_vertical_keyboard_layout = turn_horizontal_into_vertical_keyboard_layout(&reversed_rows_horizontal_keyboard_layout);
-
-        assert_eq!(
-            vec![
-                vec!["a".to_string(), "q".to_string(), "1".to_string()],
-                vec!["s".to_string(), "w".to_string(), "2".to_string()],
-                vec!["d".to_string(), "e".to_string(), "3".to_string()],
-            ],
-            reversed_rows_vertical_keyboard_layout
-        );
+        
+        let expected_keyboard_layout = vec![
+            vec!["a".to_string(), "q".to_string(), "1".to_string()],
+            vec!["s".to_string(), "w".to_string(), "2".to_string()],
+            vec!["d".to_string(), "e".to_string(), "3".to_string()],
+        ];
+            
+        assert_eq!(expected_keyboard_layout, reversed_rows_vertical_keyboard_layout);
     }
 }

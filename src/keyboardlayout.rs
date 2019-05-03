@@ -25,15 +25,20 @@ fn apply_strategy_and_depths(
     
     let keyboard_layouts_with_strategy = apply_strategy_to_keyboard_layout(keyboard_layout, strategy);
     
-    let mut keyboard_layouts_with_depth = vec![];
-    for keyboard_layout_with_strategy in &keyboard_layouts_with_strategy {
-        let keyboard_layout_with_depth = create_keyboard_layout_with_depths(keyboard_layout_with_strategy, 0, depths);
-        keyboard_layouts_with_depth.extend(keyboard_layout_with_depth);
-    }
+    let keyboard_layouts_with_depth = apply_depths_to_keyboard_layouts(&keyboard_layouts_with_strategy, 0, depths);
     
     keyboard_layouts.extend(keyboard_layouts_with_strategy);
     keyboard_layouts.extend(keyboard_layouts_with_depth);
     keyboard_layouts
+}
+
+fn apply_depths_to_keyboard_layouts(keyboard_layouts: &Vec<Vec<Vec<String>>>, min_depth: usize, max_depth: usize) -> Vec<Vec<Vec<String>>> {
+    let mut keyboard_layouts_with_depth = vec![];
+    for keyboard_layout in keyboard_layouts {
+        let keyboard_layout_with_depth = create_keyboard_layout_with_depths(keyboard_layout, min_depth, max_depth);
+        keyboard_layouts_with_depth.extend(keyboard_layout_with_depth);
+    }
+    keyboard_layouts_with_depth
 }
 
 fn apply_strategy_to_keyboard_layout(keyboard_layout: Vec<Vec<String>>, strategy: Strategy) -> Vec<Vec<Vec<String>>> {

@@ -22,31 +22,31 @@ fn apply_strategy_and_depths(
     depths: usize
 ) -> Vec<Vec<Vec<String>>> {
     let mut keyboard_layouts = vec![];
+    
+    let mut keyboard_layouts_with_strategy = vec![];
+    
     match strategy {
         Strategy::Horizontal => {
-            let keyboard_layouts_with_depth = create_keyboard_layout_with_depths(&keyboard_layout, 0, depths);
-            
-            keyboard_layouts.push(keyboard_layout);
-            keyboard_layouts.extend(keyboard_layouts_with_depth);
+            keyboard_layouts_with_strategy.push(keyboard_layout);
         }
         Strategy::Vertical => {
             let vertical_layout = turn_horizontal_into_vertical_keyboard_layout(&keyboard_layout);
-            let keyboard_layouts_with_depth = create_keyboard_layout_with_depths(&vertical_layout, 0, depths);
-            
-            keyboard_layouts.push(vertical_layout);
-            keyboard_layouts.extend(keyboard_layouts_with_depth);
+            keyboard_layouts_with_strategy.push(vertical_layout);
         }
         Strategy::All => {
             let vertical_layout = turn_horizontal_into_vertical_keyboard_layout(&keyboard_layout);
-            let keyboard_layouts_with_depth = create_keyboard_layout_with_depths(&keyboard_layout, 0, depths);
-            let vertical_layouts_with_depth = create_keyboard_layout_with_depths(&vertical_layout, 0, depths);
-            
-            keyboard_layouts.push(keyboard_layout);
-            keyboard_layouts.push(vertical_layout);
-            keyboard_layouts.extend(keyboard_layouts_with_depth);
-            keyboard_layouts.extend(vertical_layouts_with_depth);
+            keyboard_layouts_with_strategy.push(keyboard_layout);
+            keyboard_layouts_with_strategy.push(vertical_layout);
         }
     }
+    
+    for keyboard in keyboard_layouts_with_strategy {
+        let keyboard_layouts_with_depth = create_keyboard_layout_with_depths(&keyboard, 0, depths);
+        
+        keyboard_layouts.push(keyboard);
+        keyboard_layouts.extend(keyboard_layouts_with_depth);
+    }
+    
     keyboard_layouts
 }
 

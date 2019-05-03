@@ -23,31 +23,32 @@ fn apply_strategy_and_depths(
 ) -> Vec<Vec<Vec<String>>> {
     let mut keyboard_layouts = vec![];
     
-    let mut keyboard_layouts_with_strategy = vec![];
+    let keyboard_layouts_with_strategy = apply_strategy_to_keyboard_layout(keyboard_layout, strategy);
     
-    match strategy {
-        Strategy::Horizontal => {
-            keyboard_layouts_with_strategy.push(keyboard_layout);
-        }
-        Strategy::Vertical => {
-            let vertical_layout = turn_horizontal_into_vertical_keyboard_layout(&keyboard_layout);
-            keyboard_layouts_with_strategy.push(vertical_layout);
-        }
-        Strategy::All => {
-            let vertical_layout = turn_horizontal_into_vertical_keyboard_layout(&keyboard_layout);
-            keyboard_layouts_with_strategy.push(keyboard_layout);
-            keyboard_layouts_with_strategy.push(vertical_layout);
-        }
-    }
-    
-    for keyboard in keyboard_layouts_with_strategy {
-        let keyboard_layouts_with_depth = create_keyboard_layout_with_depths(&keyboard, 0, depths);
+    for keyboard_layout_with_strategy in keyboard_layouts_with_strategy {
+        let keyboard_layout_with_depth = create_keyboard_layout_with_depths(&keyboard_layout_with_strategy, 0, depths);
         
-        keyboard_layouts.push(keyboard);
-        keyboard_layouts.extend(keyboard_layouts_with_depth);
+        keyboard_layouts.push(keyboard_layout_with_strategy);
+        keyboard_layouts.extend(keyboard_layout_with_depth);
     }
     
     keyboard_layouts
+}
+
+fn apply_strategy_to_keyboard_layout(keyboard_layout: Vec<Vec<String>>, strategy: Strategy) -> Vec<Vec<Vec<String>>> {
+    match strategy {
+        Strategy::Horizontal => {
+            vec![keyboard_layout]
+        }
+        Strategy::Vertical => {
+            let vertical_layout = turn_horizontal_into_vertical_keyboard_layout(&keyboard_layout);
+            vec![vertical_layout]
+        }
+        Strategy::All => {
+            let vertical_layout = turn_horizontal_into_vertical_keyboard_layout(&keyboard_layout);
+            vec![keyboard_layout, vertical_layout]
+        }
+    }
 }
 
 fn create_keyboard_layout_with_depths(keyboard_layout: &Vec<Vec<String>>, from_depth: usize, to_depth: usize) -> Vec<Vec<Vec<String>>> {

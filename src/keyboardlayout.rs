@@ -25,13 +25,14 @@ fn apply_strategy_and_depths(
     
     let keyboard_layouts_with_strategy = apply_strategy_to_keyboard_layout(keyboard_layout, strategy);
     
-    for keyboard_layout_with_strategy in keyboard_layouts_with_strategy {
-        let keyboard_layout_with_depth = create_keyboard_layout_with_depths(&keyboard_layout_with_strategy, 0, depths);
-        
-        keyboard_layouts.push(keyboard_layout_with_strategy);
-        keyboard_layouts.extend(keyboard_layout_with_depth);
+    let mut keyboard_layouts_with_depth = vec![];
+    for keyboard_layout_with_strategy in &keyboard_layouts_with_strategy {
+        let keyboard_layout_with_depth = create_keyboard_layout_with_depths(keyboard_layout_with_strategy, 0, depths);
+        keyboard_layouts_with_depth.extend(keyboard_layout_with_depth);
     }
     
+    keyboard_layouts.extend(keyboard_layouts_with_strategy);
+    keyboard_layouts.extend(keyboard_layouts_with_depth);
     keyboard_layouts
 }
 

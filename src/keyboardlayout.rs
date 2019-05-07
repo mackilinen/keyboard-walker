@@ -5,6 +5,10 @@ pub enum Strategy {
     All,
 }
 
+enum StartingPoint {
+    TopLeft,
+}
+
 pub fn create_keyboard_layout(
     keyboard_layout: Vec<Vec<String>>,
     strategy: Strategy,
@@ -25,11 +29,23 @@ fn apply_strategy_and_depths(
     
     let keyboard_layouts_with_strategy = apply_strategy_to_keyboard_layout(keyboard_layout, strategy);
     
-    let keyboard_layouts_with_depth = apply_depths_to_keyboard_layouts(&keyboard_layouts_with_strategy, 0, depths);
+    let mut keyboard_layouts_with_starting_point = vec![];
+    for keyboard_layout_with_strategy in keyboard_layouts_with_strategy {
+        let keyboard_layout_with_starting_point = apply_starting_point_to_keyboard_layout(keyboard_layout_with_strategy, StartingPoint::TopLeft);
+        keyboard_layouts_with_starting_point.extend(keyboard_layout_with_starting_point);
+    }
     
-    keyboard_layouts.extend(keyboard_layouts_with_strategy);
+    let keyboard_layouts_with_depth = apply_depths_to_keyboard_layouts(&keyboard_layouts_with_starting_point, 0, depths);
+    
+    keyboard_layouts.extend(keyboard_layouts_with_starting_point);
     keyboard_layouts.extend(keyboard_layouts_with_depth);
     keyboard_layouts
+}
+
+fn apply_starting_point_to_keyboard_layout(keyboard_layout: Vec<Vec<String>>, starting_point: StartingPoint) -> Vec<Vec<Vec<String>>> {
+    match starting_point {
+        StartingPoint::TopLeft => { vec![keyboard_layout] }
+    }
 }
 
 fn apply_depths_to_keyboard_layouts(keyboard_layouts: &Vec<Vec<Vec<String>>>, min_depth: usize, max_depth: usize) -> Vec<Vec<Vec<String>>> {

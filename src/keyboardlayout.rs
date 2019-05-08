@@ -5,16 +5,17 @@ pub enum Strategy {
     All,
 }
 
-enum StartingPoint {
+pub enum StartingPoint {
     TopLeft,
 }
 
 pub fn create_keyboard_layout(
     keyboard_layout: Vec<Vec<String>>,
     strategy: Strategy,
-    depths: usize
+    depths: usize,
+    starting_point: StartingPoint,
 ) -> Vec<String> {
-    let keyboard_layouts = apply_strategy_and_depths(keyboard_layout, strategy, depths);
+    let keyboard_layouts = apply_strategy_and_depths(keyboard_layout, strategy, depths, starting_point);
     keyboard_layouts.iter()
         .map(|layout| merge_keyboard_layout_into_a_string(layout))
         .collect()
@@ -23,15 +24,17 @@ pub fn create_keyboard_layout(
 fn apply_strategy_and_depths(
     keyboard_layout: Vec<Vec<String>>,
     strategy: Strategy,
-    depths: usize
+    depths: usize,
+    starting_point: StartingPoint,
 ) -> Vec<Vec<Vec<String>>> {
+    
     let mut keyboard_layouts = vec![];
     
     let keyboard_layouts_with_strategy = apply_strategy_to_keyboard_layout(keyboard_layout, strategy);
     
     let mut keyboard_layouts_with_starting_point = vec![];
     for keyboard_layout_with_strategy in keyboard_layouts_with_strategy {
-        let keyboard_layout_with_starting_point = apply_starting_point_to_keyboard_layout(keyboard_layout_with_strategy, StartingPoint::TopLeft);
+        let keyboard_layout_with_starting_point = apply_starting_point_to_keyboard_layout(keyboard_layout_with_strategy, &starting_point);
         keyboard_layouts_with_starting_point.extend(keyboard_layout_with_starting_point);
     }
     
@@ -42,7 +45,7 @@ fn apply_strategy_and_depths(
     keyboard_layouts
 }
 
-fn apply_starting_point_to_keyboard_layout(keyboard_layout: Vec<Vec<String>>, starting_point: StartingPoint) -> Vec<Vec<Vec<String>>> {
+fn apply_starting_point_to_keyboard_layout(keyboard_layout: Vec<Vec<String>>, starting_point: &StartingPoint) -> Vec<Vec<Vec<String>>> {
     match starting_point {
         StartingPoint::TopLeft => { vec![keyboard_layout] }
     }
@@ -181,7 +184,7 @@ mod tests {
             vec!["z".to_string(),"x".to_string(),"c".to_string(),"v".to_string(),"b".to_string(),"n".to_string(),],
         ];
         
-        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal, 0);
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal, 0, StartingPoint::TopLeft);
         assert!(created_keyboard_layout.len() == 1);
         
         let keyboard_layout = vec![
@@ -191,7 +194,7 @@ mod tests {
             vec!["z".to_string(),"x".to_string(),"c".to_string(),"v".to_string(),"b".to_string(),"n".to_string(),],
         ];
         
-        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical, 0);
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical, 0, StartingPoint::TopLeft);
         assert!(created_keyboard_layout.len() == 1);
         
         let keyboard_layout = vec![
@@ -201,7 +204,7 @@ mod tests {
             vec!["z".to_string(),"x".to_string(),"c".to_string(),"v".to_string(),"b".to_string(),"n".to_string(),],
         ];
         
-        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::All, 0);
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::All, 0, StartingPoint::TopLeft);
         assert!(created_keyboard_layout.len() == 2);
     }
     
@@ -214,7 +217,7 @@ mod tests {
             vec!["z".to_string(),"x".to_string(),"c".to_string(),"v".to_string(),"b".to_string(),"n".to_string(),],
         ];
         
-        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal, 1);
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal, 1, StartingPoint::TopLeft);
         assert!(created_keyboard_layout.len() == 2);
         
         let keyboard_layout = vec![
@@ -224,7 +227,7 @@ mod tests {
             vec!["z".to_string(),"x".to_string(),"c".to_string(),"v".to_string(),"b".to_string(),"n".to_string(),],
         ];
         
-        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical, 1);
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical, 1, StartingPoint::TopLeft);
         assert!(created_keyboard_layout.len() == 2);
         
         let keyboard_layout = vec![
@@ -234,7 +237,7 @@ mod tests {
             vec!["z".to_string(),"x".to_string(),"c".to_string(),"v".to_string(),"b".to_string(),"n".to_string(),],
         ];
         
-        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::All, 1);
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::All, 1, StartingPoint::TopLeft);
         assert!(created_keyboard_layout.len() == 4);
     }
     
@@ -246,7 +249,7 @@ mod tests {
             vec!["a".to_string(),"s".to_string(),"d".to_string(),"f".to_string(),],
         ];
 
-        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal, 1);
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal, 1, StartingPoint::TopLeft);
 
         assert_eq!("12qwas23wesd34erdf".to_string(), created_keyboard_layout[1]);
     }
@@ -259,7 +262,7 @@ mod tests {
             vec!["a".to_string(),"s".to_string(),"d".to_string(),"f".to_string(),],
         ];
 
-        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical, 1);
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical, 1, StartingPoint::TopLeft);
 
         assert_eq!("1q2w3e4rqawsedrf".to_string(), created_keyboard_layout[1]);
     }
@@ -270,7 +273,7 @@ mod tests {
             vec!["1".to_string(),"2".to_string(),"3".to_string(),"4".to_string(),]
         ];
 
-        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal, 0);
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal, 0, StartingPoint::TopLeft);
 
         assert_eq!("1234".to_string(), created_keyboard_layout[0]);
     }
@@ -284,7 +287,7 @@ mod tests {
             vec!["z".to_string(),"x".to_string(),"c".to_string(),"v".to_string(),"b".to_string(),"n".to_string(),],
         ];
 
-        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal, 0);
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal, 0, StartingPoint::TopLeft);
 
         assert_eq!(
             "123456qwertyasdfghzxcvbn".to_string(),
@@ -300,7 +303,7 @@ mod tests {
             vec!["z".to_string(),"x".to_string(),"c".to_string(),"v".to_string(),"b".to_string(),"n".to_string(),],
         ];
 
-        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal, 0);
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Horizontal, 0, StartingPoint::TopLeft);
 
         assert_eq!("qwertyasdzxcvbn".to_string(), created_keyboard_layout[0]);
     }
@@ -309,7 +312,7 @@ mod tests {
     fn create_a_new_keyboard_layout_with_vertical_strategy_should_handle_1_row() {
         let keyboard_layout = vec![vec!["1".to_string(),"2".to_string(),"3".to_string(),"4".to_string(),]];
 
-        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical, 0);
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical, 0, StartingPoint::TopLeft);
 
         assert_eq!("1234".to_string(), created_keyboard_layout[0]);
     }
@@ -323,7 +326,7 @@ mod tests {
             vec!["z".to_string(),"x".to_string(),"c".to_string(),"v".to_string(),"b".to_string(),"n".to_string(),],
         ];
 
-        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical, 0);
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical, 0, StartingPoint::TopLeft);
 
         assert_eq!(
             "1qaz2wsx3edc4rfv5tgb6yhn".to_string(),
@@ -339,7 +342,7 @@ mod tests {
             vec!["z".to_string(),"x".to_string(),"c".to_string(),"v".to_string(),"b".to_string(),"n".to_string(),],
         ];
 
-        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical, 0);
+        let created_keyboard_layout = create_keyboard_layout(keyboard_layout, Strategy::Vertical, 0, StartingPoint::TopLeft);
 
         assert_eq!("qazwsxedcrvtbyn".to_string(), created_keyboard_layout[0]);
     }

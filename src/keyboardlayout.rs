@@ -10,6 +10,7 @@ pub enum StartingPoint {
     BottomLeft,
     TopRight,
     BottomRight,
+    All,
 }
 
 pub fn create_keyboard_layout(
@@ -33,9 +34,13 @@ fn apply_strategy_and_depths(
     
     let mut keyboard_layouts = vec![];
     
-    let keyboard_layout_with_starting_point = apply_starting_point_to_keyboard_layout(keyboard_layout, starting_point);
+    let keyboard_layouts_with_starting_point = apply_starting_point_to_keyboard_layout(keyboard_layout, starting_point);
     
-    let keyboard_layouts_with_strategy = apply_strategy_to_keyboard_layout(keyboard_layout_with_starting_point, strategy);
+    let mut keyboard_layouts_with_strategy = vec![];
+    for keyboard_layout_with_starting_point in keyboard_layouts_with_starting_point {
+        let keyboard_layout_with_strategy = apply_strategy_to_keyboard_layout(keyboard_layout_with_starting_point, &strategy);
+        keyboard_layouts_with_strategy.extend(keyboard_layout_with_strategy);
+    }
     
     let keyboard_layouts_with_depth = apply_depths_to_keyboard_layouts(&keyboard_layouts_with_strategy, 0, depths);
     
@@ -44,14 +49,22 @@ fn apply_strategy_and_depths(
     keyboard_layouts
 }
 
-fn apply_starting_point_to_keyboard_layout(keyboard_layout: Vec<Vec<String>>, starting_point: StartingPoint) -> Vec<Vec<String>> {
+fn apply_starting_point_to_keyboard_layout(keyboard_layout: Vec<Vec<String>>, starting_point: StartingPoint) -> Vec<Vec<Vec<String>>> {
     match starting_point {
-        StartingPoint::TopLeft => { keyboard_layout }
-        StartingPoint::BottomLeft => { reverse_row_order(&keyboard_layout) }
-        StartingPoint::TopRight => { reverse_column_order(&keyboard_layout) }
+        StartingPoint::TopLeft => { vec![keyboard_layout] }
+        StartingPoint::BottomLeft => { vec![reverse_row_order(&keyboard_layout)] }
+        StartingPoint::TopRight => { vec![reverse_column_order(&keyboard_layout)] }
         StartingPoint::BottomRight => {
             let reversed_rows = reverse_row_order(&keyboard_layout);
-            reverse_column_order(&reversed_rows)
+            vec![reverse_column_order(&reversed_rows)]
+        }
+        StartingPoint::All => { 
+            vec![
+                keyboard_layout.to_vec(),
+                reverse_row_order(&keyboard_layout),
+                reverse_column_order(&keyboard_layout),
+                reverse_column_order(&reverse_row_order(&keyboard_layout))
+            ]
         }
     }
 }
@@ -65,7 +78,7 @@ fn apply_depths_to_keyboard_layouts(keyboard_layouts: &Vec<Vec<Vec<String>>>, mi
     keyboard_layouts_with_depth
 }
 
-fn apply_strategy_to_keyboard_layout(keyboard_layout: Vec<Vec<String>>, strategy: Strategy) -> Vec<Vec<Vec<String>>> {
+fn apply_strategy_to_keyboard_layout(keyboard_layout: Vec<Vec<String>>, strategy: &Strategy) -> Vec<Vec<Vec<String>>> {
     match strategy {
         Strategy::Horizontal => {
             vec![keyboard_layout]

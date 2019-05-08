@@ -7,6 +7,9 @@ pub enum Strategy {
 
 pub enum StartingPoint {
     TopLeft,
+    BottomLeft,
+    TopRight,
+    BottomRight,
 }
 
 pub fn create_keyboard_layout(
@@ -30,24 +33,26 @@ fn apply_strategy_and_depths(
     
     let mut keyboard_layouts = vec![];
     
-    let keyboard_layouts_with_strategy = apply_strategy_to_keyboard_layout(keyboard_layout, strategy);
+    let keyboard_layout_with_starting_point = apply_starting_point_to_keyboard_layout(keyboard_layout, starting_point);
     
-    let mut keyboard_layouts_with_starting_point = vec![];
-    for keyboard_layout_with_strategy in keyboard_layouts_with_strategy {
-        let keyboard_layout_with_starting_point = apply_starting_point_to_keyboard_layout(keyboard_layout_with_strategy, &starting_point);
-        keyboard_layouts_with_starting_point.extend(keyboard_layout_with_starting_point);
-    }
+    let keyboard_layouts_with_strategy = apply_strategy_to_keyboard_layout(keyboard_layout_with_starting_point, strategy);
     
-    let keyboard_layouts_with_depth = apply_depths_to_keyboard_layouts(&keyboard_layouts_with_starting_point, 0, depths);
+    let keyboard_layouts_with_depth = apply_depths_to_keyboard_layouts(&keyboard_layouts_with_strategy, 0, depths);
     
-    keyboard_layouts.extend(keyboard_layouts_with_starting_point);
+    keyboard_layouts.extend(keyboard_layouts_with_strategy);
     keyboard_layouts.extend(keyboard_layouts_with_depth);
     keyboard_layouts
 }
 
-fn apply_starting_point_to_keyboard_layout(keyboard_layout: Vec<Vec<String>>, starting_point: &StartingPoint) -> Vec<Vec<Vec<String>>> {
+fn apply_starting_point_to_keyboard_layout(keyboard_layout: Vec<Vec<String>>, starting_point: StartingPoint) -> Vec<Vec<String>> {
     match starting_point {
-        StartingPoint::TopLeft => { vec![keyboard_layout] }
+        StartingPoint::TopLeft => { keyboard_layout }
+        StartingPoint::BottomLeft => { reverse_row_order(&keyboard_layout) }
+        StartingPoint::TopRight => { reverse_column_order(&keyboard_layout) }
+        StartingPoint::BottomRight => {
+            let reversed_rows = reverse_row_order(&keyboard_layout);
+            reverse_column_order(&reversed_rows)
+        }
     }
 }
 
@@ -169,6 +174,39 @@ fn create_layout_with_depth(layout: &Vec<Vec<String>>, depth: usize) -> Vec<Vec<
     }
     
     new_matrix
+}
+
+fn reverse_row_order(keyboard_layout: &Vec<Vec<String>>) -> Vec<Vec<String>> {
+    
+    // What is the difference here?
+    
+    let mut keyboard_layout_rev = keyboard_layout.to_vec();
+    keyboard_layout_rev.reverse();
+    keyboard_layout_rev
+
+    // keyboard_layout.iter()
+    //     .rev()
+    //     .map(|v| v.to_vec())
+    //     .collect()
+}
+
+fn reverse_column_order(keyboard_layout: &Vec<Vec<String>>) -> Vec<Vec<String>> {
+    
+    // What is the difference here?
+    
+    let mut keyboard_layout_rev = keyboard_layout.to_vec();
+    for row in &mut keyboard_layout_rev {
+        row.reverse();
+    }
+    keyboard_layout_rev
+
+    // keyboard_layout.iter()
+    //     .map(|v| v.iter()
+    //         .rev()
+    //         .map(|v| v.to_string())
+    //         .collect()
+    //     )
+    //     .collect()
 }
 
 #[cfg(test)]
@@ -480,20 +518,6 @@ mod tests {
         assert_eq!(expected_keyboard_layout, created_keyboard_layout);
     }
     
-    fn reverse_row_order(keyboard_layout: &Vec<Vec<String>>) -> Vec<Vec<String>> {
-        
-        // What is the difference here?
-        
-        let mut keyboard_layout_rev = keyboard_layout.to_vec();
-        keyboard_layout_rev.reverse();
-        keyboard_layout_rev
-
-        // keyboard_layout.iter()
-        //     .rev()
-        //     .map(|v| v.to_vec())
-        //     .collect()
-    }
-    
     #[test]
     fn horizontal_keyboard_layout_bottom_to_top_left_to_right() {
         
@@ -533,25 +557,6 @@ mod tests {
         ];
             
         assert_eq!(expected_keyboard_layout, reversed_rows_vertical_keyboard_layout);
-    }
-    
-    fn reverse_column_order(keyboard_layout: &Vec<Vec<String>>) -> Vec<Vec<String>> {
-        
-        // What is the difference here?
-        
-        let mut keyboard_layout_rev = keyboard_layout.to_vec();
-        for row in &mut keyboard_layout_rev {
-            row.reverse();
-        }
-        keyboard_layout_rev
-
-        // keyboard_layout.iter()
-        //     .map(|v| v.iter()
-        //         .rev()
-        //         .map(|v| v.to_string())
-        //         .collect()
-        //     )
-        //     .collect()
     }
     
     #[test]

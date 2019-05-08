@@ -32,8 +32,6 @@ fn apply_strategy_and_depths(
     starting_point: StartingPoint,
 ) -> Vec<Vec<Vec<String>>> {
     
-    let mut keyboard_layouts = vec![];
-    
     let keyboard_layouts_with_starting_point = apply_starting_point_to_keyboard_layout(keyboard_layout, starting_point);
     
     let mut keyboard_layouts_with_strategy = vec![];
@@ -44,6 +42,7 @@ fn apply_strategy_and_depths(
     
     let keyboard_layouts_with_depth = apply_depths_to_keyboard_layouts(&keyboard_layouts_with_strategy, 0, depths);
     
+    let mut keyboard_layouts = vec![];
     keyboard_layouts.extend(keyboard_layouts_with_strategy);
     keyboard_layouts.extend(keyboard_layouts_with_depth);
     keyboard_layouts

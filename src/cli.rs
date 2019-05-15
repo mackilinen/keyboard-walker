@@ -17,10 +17,10 @@ pub struct Cli {
     #[structopt(long, short = "S", default_value = "All")]
     pub starting_point: String,
     /// The word list file path
-    #[structopt(long = "words-file", short, default_value = "", parse(from_os_str))]
+    #[structopt(long, short, default_value = "", parse(from_os_str))]
     pub words_file: PathBuf,
     /// The keyboard layout file path
-    #[structopt(long = "keyboard-file", short, default_value = "", parse(from_os_str))]
+    #[structopt(long, short, default_value = "", parse(from_os_str))]
     pub keyboard_file: PathBuf,
     /// Concatenation order of the keyboard sequence on the word [values: Append, Prepend]
     #[structopt(long, short, default_value = "Append")]

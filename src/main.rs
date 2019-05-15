@@ -24,6 +24,7 @@ fn main() -> Result<(), failure::Error> {
     let min_word_length = args.min_length;
     let max_word_length = args.max_length;
     let strategy = keyboardlayout::Strategy::from_str(&args.strategy)?;
+    let starting_point = keyboardlayout::StartingPoint::from_str(&args.starting_point)?;
     let concatenation = concatenator::ConcatenationOrder::from_str(&args.concatenation)?;
     let word_list = if args.words_file.as_os_str().is_empty() {
         Vec::new()
@@ -44,7 +45,7 @@ fn main() -> Result<(), failure::Error> {
         serde_json::from_reader(BufReader::new(File::open(&args.keyboard_file)?))?
     };
 
-    let keyboard_layouts = keyboardlayout::create_keyboard_layout(keyboard_layout, strategy, depths, keyboardlayout::StartingPoint::TopLeft);
+    let keyboard_layouts = keyboardlayout::create_keyboard_layout(keyboard_layout, strategy, depths, starting_point);
 
     let mut keyboard_words = vec![];
     for keyboard_layout in keyboard_layouts {

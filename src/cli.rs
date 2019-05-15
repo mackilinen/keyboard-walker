@@ -13,6 +13,9 @@ pub struct Cli {
     /// Strategy of generated keyboard sequence [values: All, Horizontal, Vertical]
     #[structopt(long, short, default_value = "All")]
     pub strategy: String,
+    /// Starting point of which corner to start on the keyboard [values: All, TopLeft, BottomLeft, TopRight, BottomRight]
+    #[structopt(long, short = "S", default_value = "All")]
+    pub starting_point: String,
     /// The word list file path
     #[structopt(long = "words-file", short, default_value = "", parse(from_os_str))]
     pub words_file: PathBuf,

@@ -5,6 +5,7 @@ pub enum Strategy {
     All,
 }
 
+#[derive(EnumString)]
 pub enum StartingPoint {
     TopLeft,
     BottomLeft,

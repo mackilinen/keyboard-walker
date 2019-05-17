@@ -45,7 +45,7 @@ fn main() -> Result<(), failure::Error> {
         serde_json::from_reader(BufReader::new(File::open(&args.keyboard_file)?))?
     };
 
-    let keyboard_layouts = keyboardlayout::create_keyboard_layout(keyboard_layout, strategy, depths, starting_point);
+    let keyboard_layouts = keyboardlayout::create_keyboard_layout(keyboard_layout, strategy, 0, depths, starting_point);
 
     let mut keyboard_words = vec![];
     for keyboard_layout in keyboard_layouts {

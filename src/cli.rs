@@ -25,9 +25,12 @@ pub struct Cli {
     /// Concatenation order of the keyboard sequence on the word [values: Append, Prepend]
     #[structopt(long, short, default_value = "Append")]
     pub concatenation: String,
-    /// How deep to go on the keyboard rows
+    /// Minimum depth to go on the keyboard rows/columns
     #[structopt(long, short, default_value = "0")]
-    pub depths: usize,
+    pub depth_min: usize,
+    /// Maximum depth to go on the keyboard rows/columns
+    #[structopt(long, short, default_value = "3")]
+    pub depth_max: usize,
     /// File path to write output to (overwrite file if exist)
     #[structopt(long, short, default_value = "", parse(from_os_str))]
     pub output_file: PathBuf,

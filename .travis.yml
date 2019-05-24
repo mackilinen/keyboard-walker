@@ -2,13 +2,14 @@ language: rust
 cache: cargo
 
 PRE_PACKAGE: &PRE_PACKAGE
-    - git config --local user.name "Markus Eriksson"
-    - git config --local user.email "markus.eriksson.88@gmail.com"
-    - archivename="keyboard-walker-$TRAVIS_TAG-$TARGET"
-    - mkdir $archivename
-    - cp target/$TARGET/release/keyboard-walker $archivename/
-    - cp README.md $archivename/
-    - cp LICENSE.txt $archivename/
+  |
+    git config --local user.name "Markus Eriksson"
+    git config --local user.email "markus.eriksson.88@gmail.com"
+    archivename="keyboard-walker-$TRAVIS_TAG-$TARGET"
+    mkdir $archivename
+    cp target/$TARGET/release/keyboard-walker $archivename/
+    cp README.md $archivename/
+    cp LICENSE.txt $archivename/
     
 PACKAGE_TAR: &PACKAGE_TAR
     - *PRE_PACKAGE

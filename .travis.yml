@@ -1,5 +1,4 @@
 language: rust
-sudo: false
 cache: cargo
 
 PRE_PACKAGE: &PRE_PACKAGE
@@ -12,10 +11,12 @@ PRE_PACKAGE: &PRE_PACKAGE
     - cp LICENSE.txt $archivename/
     
 PACKAGE_TAR: &PACKAGE_TAR
+    - *PRE_PACKAGE
     - archivefile="$archivename.tar.gz"
     - tar czvf $archivefile $archivename
 
 PACKAGE_7Z: &PACKAGE_7Z
+    - *PRE_PACKAGE
     - archivefile="$archivename.zip"
     - 7z a "$archivefile" "$archivename"
 
@@ -46,8 +47,7 @@ matrix:
       apt:
         packages:
         - musl-tools
-    before_deploy: *PRE_PACKAGE
-      *PACKAGE_TAR
+    before_deploy: *PACKAGE_TAR
     deploy: *DEPLOY_GITHUB
         
   - name: macOS Binary
@@ -56,8 +56,7 @@ matrix:
     rust: stable
     script: cargo build --release --target $TARGET --locked
     install: true
-    before_deploy: *PRE_PACKAGE
-      *PACKAGE_TAR
+    before_deploy: *PACKAGE_TAR
     deploy: *DEPLOY_GITHUB
     
   - name: Windows Binary
@@ -66,8 +65,7 @@ matrix:
     filter_secrets: false
     rust: stable
     script: cargo build --release --target $TARGET --locked
-    before_deploy: *PRE_PACKAGE
-      *PACKAGE_7Z
+    before_deploy: *PACKAGE_7Z
     deploy: *DEPLOY_GITHUB
 
 notifications:

@@ -30,11 +30,17 @@ $ keyboard-walker
 
 ## Resources
 
-<http://www.unicode.org/cldr/charts/latest/keyboards/layouts/index.html>
-
-<http://www.keyboard-layout-editor.com>
-
-<https://wpengine.com/unmasked/>
+- <http://www.unicode.org/cldr/charts/latest/keyboards/layouts/index.html>
+- <http://www.keyboard-layout-editor.com>
+- <https://wpengine.com/unmasked/>
+- <https://security.stackexchange.com/questions/80120/are-passwords-comprised-of-key-sequences-on-a-keyboard-any-less-secure-than-the>
+- <https://digi.ninja/projects/passpat.php>
+- <https://github.com/digininja/pipal>
+- <https://cyberarms.wordpress.com/2018/02/13/creating-hashcat-keymap-walking-password-wordlists/>
+- <https://github.com/hashcat/kwprocessor>
+- <https://bytesdarkly.com/2014/08/generating-keyboard-walks/>
+- <https://github.com/Rich5/Keyboard-Walk-Generators>
+- <https://pastebin.com/ynL3jCQn>
 
 ## License
 
